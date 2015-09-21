@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+		<title>Cashflow JS</title>
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="draft.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body class="container">
+		<div class="container account-list" data-budget-list="Sept">
+			
+		</div>
+		<div class="navbar-fixed-bottom detail-view">
+			<!-- contains the detail of the Entry -->
+			<div class="detail-view-entry">
+				<div class="col-xs-12 detail-view-entry-date-used">Mon</div>
+				<div class="col-xs-12 detail-view-entry-date-created">Now</div>
+			</div>
+		</div>
+	</body>
+	<footer>
+		<script id="account-summary-template" type="text/template">
+			<div class="row account-row" data-account-id="{{account.id}}">
+				<div class="row account-summary">
+					<div class="col-xs-4 account-column account-column-name">{{account.name}}</div>
+					<div class="col-xs-4 account-column account-column-allocation" data-account-allocation="{{account.allocation}}">{{account.allocation}}</div>
+					<div class="col-xs-4 account-column account-column-balance" data-account-balance="{{account.balance}}" title="Total Expense: {{account.total_expense}}" >
+						{{account.balance}}
+					</div>
+				</div>
+				<div class="row account-detail text-left" style="display:none;">
+					<table class="table table-hover account-detail-table"></table>
+				</div>
+			</div>
+		</script>
+		<script id="account-detail-template" type="text/template">
+			<tr data-entry-id="{{entry.id}}">
+				<td>{{entry.description}}</td>
+				<td>{{entry.amount}}</td>
+			</tr>
+		</script>
+		<!-- library -->
+		<script src="jquery-2.1.4.min.js" type="text/javascript"></script>
+		<script src="sculejs/lib/com.scule.js" type="text/javascript"></script>
+		<script src="bootstrap/js/bootstrap.js" type="text/javascript"></script>
+		<script src="numeral.js" type="text/javascript"></script>
+		<script src="picker/picker.js" type="text/javascript"></script>
+		<script src="picker/picker.date.js" type="text/javascript"></script>
+		<!-- cashflow app -->
+		<script src="draft-classes.js" type="text/javascript"></script>
+		<script src="draft-main.js" type="text/javascript"></script>
+	</footer>
+</html>

@@ -1,0 +1,114 @@
+
+<script type="text/javascript">
+
+	// DIFFERENT UPDATES
+	// sets the 'setting' attr to entirely different value
+	Cashflow.Users.db.update({active:true},{$set:{settings:{budget:{id:'55fa1c89b6b61f239b083854'}}}})
+	// sets only the 'id' on 'settings.budget'
+	Cashflow.Users.db.update({active:true},{$set:{'settings.budget.id':'55fa1c89b6b61f239b083854'}})
+
+	Cashflow.Accounts.db.update({},{$set:{'id':this._id.toString()}})
+
+	// Account total entries
+	Cashflow.Accounts.entries.db.mapReduce(
+	    function(document, emit){
+	    	emit( document.account.id, document.amount);
+	    },
+	    function(key, values){
+	    	var reduced      = {},
+	    		account_name = Cashflow.Accounts.db.findOne( key ).name;
+	    	// formulate 
+			reduced[account_name] = 
+				Cashflow.global.functions.sumArray( values );
+	    	return reduced;
+	    },
+	    {
+	        out:{
+	            merge:'scule+dummy://try-map-reduce'
+	        },
+	        query: {},
+	      	finalize:function(key, reduced) {
+	         	reduced.account_id = key;
+	         	return reduced;
+	      	}
+	    },
+	    function ( out_collection) {
+	    	Cashflow.temp = out_collection;
+	    }
+	);
+
+	Cashflow.Budgets.db.find({
+		accounts:{
+			$elemMatch:{
+				id: 'the hash'
+			}
+		}
+	});
+
+	Cashflow.Budgets.db.find({
+		_id: "55fa1c89b6b61f239b083854",
+		accounts:{
+			$elemMatch:{
+				id: "55fa0e877b23a7079509e665"
+			}
+		}
+	})
+
+
+			account_list.forEach(function ( account ) {
+				account.allocation = 
+					this_class.getBudgetAllocation( budget.accounts, account );
+			});
+
+
+a = Scule.factoryCollection('scule+dummy://datediff');
+a.save({entry: "2015/04/20"});
+a.save({entry: "2015/05/20"});
+a.save({entry: "2015/06/20"});
+a.find({
+	entry:{
+		$gt: "2015/04/20",
+		$lte: "2015/06/20"
+	}
+});
+
+Cashflow.Entries.db.find({'date.used':{$gte:'2015/09/01',$lte:'2015/09/30'}})
+</script>
+
+
+
+<!-- Backup markup -->
+<div class="container account-list" data-budget-list="Sept">
+	<div class="row account-row" data-account-name="CHR">
+		<div class="row account-summary">
+			<div class="col-xs-4 account-column account-column-name">CHR</div>
+			<div class="col-xs-4 account-column account-column-allocation" data-account-allocation="2000">2000.00</div>
+			<div class="col-xs-4 account-column account-column-balance" data-account-balance="1000">1000.00</div>
+		</div>
+		<div class="row account-detail text-left" style="display:none;">
+			<table class="table table-hover account-detail-table">
+				<tr><th>Description</th><th>Amount</th></tr>
+				<tr data-id="1">
+					<td>Tithes</td>
+					<td>1000.00</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="row account-row" data-account-name="LIV">
+		<div class="row account-summary">
+			<div class="col-xs-4 account-column account-column-name">LIV</div>
+			<div class="col-xs-4 account-column account-column-allocation" data-account-allocation="2000">2000.00</div>
+			<div class="col-xs-4 account-column account-column-balance" data-account-balance="1000">1000.00</div>
+		</div>
+		<div class="row account-detail text-left" style="display:none;">
+			<table class="table table-hover account-detail-table">
+				<tr><th>Description</th><th>Amount</th></tr>
+				<tr data-id="2">
+					<td>1st Week Allowance</td>
+					<td>1000.00</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

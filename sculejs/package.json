@@ -1,0 +1,41 @@
+{
+  "private": false,
+  "version": "0.1.2",
+  "name": "sculejs",
+  "description": "Data structures for the web",
+  "author": {
+    "name": "Dan Eyles",
+    "email": "dan@irlgaming.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dan-eyles/sculejs.git"
+  },
+  "engine": "node >= 0.8",
+  "dependencies": {},
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "mocha test/*"
+  },
+  "keywords": [
+    "nosql",
+    "database",
+    "data structures"
+  ],
+  "readmeFilename": "README.md",
+  "directories": {
+    "test": "tests"
+  },
+  "license": "BSD",
+  "readme": "# SculeJS\n\n[![Build Status](https://travis-ci.org/dan-eyles/sculejs.png?branch=master)](https://travis-ci.org/dan-eyles/sculejs)\n\n## What is SculeJS?\n\n*SculeJS* (from Minuscule - pronounced **skyul**) is a fully featured DBMS written in JavaScript that emulates the functionality of [MongoDB](http://www.mongodb.org/). It's also\nmuch more than that; *SculeJS* includes implementations of many general purpose data structures that can be used by developers in their day-to-day work.\n\nI originally built [JSONDB](https://github.com/irlgaming/jsondb-public \"JSONDB\") for use in Titanium Appcelerator apps, but over time\nit became apparent that a similar system could be really useful for other stuff as well. *SculeJS* can run in your web browser, in a NodeJS \nprocess, or even inside iOS and Android applications including a JavaScript runtime environment.\n\n*SculeJS* provides a high-performance NoSQL database management system with the following features:\n\n* Document-oriented storage\n* Fast in-place updates\n* Rich document based queries\n* Support for Map/Reduce operations\n* Support for geo-locational queries using the $where and $near operators\n\nData structures currently included in *SculeJS* are:\n\n* [Hash Map](http://en.wikipedia.org/wiki/Hash_Table  \"Hash Map\")\n* [Hash Table](http://en.wikipedia.org/wiki/Hash_Table \"Hash Table\")\n* [Binary Search Tree](http://en.wikipedia.org/wiki/Binary_Search_Tree \"Binary Search Tree\")\n* [Bloom Filter](http://en.wikipedia.org/wiki/Bloom_Filter \"Bloom Filter\")\n* [Linked List](http://en.wikipedia.org/wiki/Linked_List \"Linked List\")\n* [Doubly Linked List](http://en.wikipedia.org/wiki/Linked_List#Doubly_linked_list \"Doubly Linked List\")\n* [Caching Linked List](http://en.wikipedia.org/wiki/Linked_List \"Caching Linked List\")\n* [LRU Cache](http://en.wikipedia.org/wiki/LRU_cache#Least_Recently_Used \"LRU Cache\")\n* [LIFO Stack](http://bit.ly/v0kKey \"LIFO Stack\")\n* [FIFO Stack](http://bit.ly/v0kKey \"FIFO Stack\")\n* [Queue](http://bit.ly/v0kKey \"Queue\")\n* Atomic Counter\n* [Bit Set](http://en.wikipedia.org/wiki/Bit_array \"Bit Set\")\n\n## Where's the documentation?\n\nI do my best to keep the JSDoc annotation in the source up to date with changes, sometimes I miss things though. To generate a HTML version of the API reference for _SculeJS_\nclone a copy of the [jsdoc3 repository](https://github.com/jsdoc3/jsdoc) and follow the instructions in the README.md file there.\n\nYou should be able to generate JSDoc for _SculeJS_ using the following commands (assuming the sculejs and jsdoc directories are at the same level):\n\n    $ cd jsdoc\n    $ ./jsdoc ../sculejs/lib/*.js\n\nIf you have any specific questions about how to use _SculeJS_ then head on over to the [project wiki](https://github.com/dan-eyles/sculejs/wiki).\n\n## Do you use any coding standards?\n\nI run all core library code through [JSHint](http://jshint.com/) as part of my (currently manual) build process. Building code for other platforms such as web and Titanium\ntakes a little bit of manual fiddling, so certain portions don't pass. It all runs though, and all test cases are verified by running mocha before any commits to TRUNK.\n\n## How does it work?\n\n*SculeJS* stores collections of JavaScript objects in memory and processes query expressions by compiling them to JavaScript before evaluating them against collection data.\nUsing *SculeJS* to perform queries is actually pretty similar to using the MongoDB query shell - most operators are supported.\n\nCollections can be persisted to disk (using LocalStorage in the browser), or other storage mediums using custom storage managers. At the time of writing I'm working on\nsupport for [IndexDB](http://www.w3.org/TR/IndexedDB/ \"IndexDB\") and [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database \"WebSQL\") storage engines.\n\n## Can I contribute/donate/help in some way?\n\nIf you want to help out with developing *SculeJS* please take a look at the [contributor wiki guide](https://github.com/dan-eyles/sculejs/wiki/Guide-To-Contributing), I'd be happy to have some help. Donations aren't necessary - if you \nuse *SculeJS* and love it then tell your friends, just getting the word out would be a huge help.\n\nI have a full time job and maintain *SculeJS* in my spare time, so if I don't get to your tickets immediately please don't take it personally.",
+  "bugs": {
+    "url": "https://github.com/dan-eyles/sculejs/issues"
+  },
+  "homepage": "https://github.com/dan-eyles/sculejs",
+  "_id": "sculejs@0.1.2",
+  "dist": {
+    "shasum": "a2c1eef3b6f6839ec34a33dbd9a5984a1fb99a05"
+  },
+  "_from": "sculejs@*",
+  "_resolved": "https://registry.npmjs.org/sculejs/-/sculejs-0.1.2.tgz"
+}
