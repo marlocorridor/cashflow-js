@@ -1,6 +1,7 @@
 // Main
 (function () {
 	initializeApp();
+	initializePlugin();
 
 	Cashflow.showAll = function () {
 		return {
@@ -9,7 +10,9 @@
 			entries: Cashflow.Entries.db.findAll(),
 			accounts: Cashflow.Accounts.db.findAll(),
 		};
-	}
+	};
+
+	clearDetailViews();
 })();
 
 // Event Handlers
@@ -17,10 +20,17 @@
 	$('.account-list')
 		.on('click', '.account-row .account-summary', function (e) {
 			var account_row    = getAccountSummaryParentRow( $(this) ),
-				account_detail = getAccountRowDetail( account_row );
+				account_detail = getAccountRowDetail( account_row ),
+				account        = Cashflow.Accounts.getAccount( account_row.data('account-id') );
+
+			// set detail values
+			var detail_view = getDetailView('account');
+			detail_view.data('account-id', account._id.toString());
+			getDetailField( detail_view, 'description' ).html( account.description );
+			showDetailView('account');
 
 			// render detail
-			Cashflow.Accounts.showAccountEntryList(
+			Cashflow.Accounts.renderAccountEntriesList(
 				account_row.data('account-id'),
 				account_detail.find('table')
 			);
@@ -39,11 +49,111 @@
 				console.warn( 'Data id not defined', detail_row );
 			}
 		});
+
+	$('.detail-view')
+		.on('click','.clear-detail-view', function (e) {
+			clearDetailViews();
+		})
+		.on('click','.toggle-entries', function (e) {
+			var account_row    = $('.account-row[data-account-id=' + getDetailView('account').data('account-id') + ']'),
+				account_detail = getAccountRowDetail( account_row ),
+				account        = Cashflow.Accounts.getAccount( account_row.data('account-id') );
+
+			// render detail
+			Cashflow.Accounts.renderAccountEntriesList(
+				account_row.data('account-id'),
+				account_detail.find('table')
+			);
+
+			// show detail
+			toggleAccountDetail( account_detail );
+		})
+		.on('click','.add-entry', function (e) {
+			// set detail values
+			var detail_view = getDetailView('entry-form');
+			showDetailView('entry-form');
+		})
+		.on('submit','form.save-entry', function (e) {
+			// prevent default submit behavior
+			e.preventDefault();
+			// set detail values
+			var entry     = {};
+			var form_data = $(this).serializeArray();
+
+			// extract form data
+			form_data.forEach(function ( input ) {
+				entry[input.name] = input.value;
+			});
+
+			// set auto data
+			entry.date = {
+				used: entry.date,
+				created: getCurrentDateString()
+			};
+			entry.account = {
+				id: getDetailViewAccountId()
+			};
+			entry.user = {
+				id: Cashflow.Accounts.users.getActiveUserId()
+			};
+
+			// Cashflow
+			if ( Cashflow.Accounts.entries.create( entry ) ) {
+				var account_id, account_row, account_detail, target_elem;
+
+				account_id     = getDetailViewAccountId();
+				account_row    = getAccountRowByDataId( account_id );
+				account_detail = getAccountRowDetail( account_row );
+				target_elem    = getAccountRowByDataId( account_id ).children('.account-summary');
+
+				// update summary info
+				Cashflow.Accounts.renderAccountSummary( account_id, target_elem );
+				
+
+				// render detail
+				Cashflow.Accounts.renderAccountEntriesList(
+					account_id,
+					account_detail.find('table')
+				);
+
+				// show detail Account if hidden
+				if ( !account_detail.is(':visible') ) {
+					toggleAccountDetail( account_detail );
+				}
+
+			}else{
+				throw "Invalid user data, please check input";
+			}
+
+		});
 })();
 
+function getDetailViewByDataId ( account_id ) {
+	return getAccountRowDetail( getAccountRowByDataId( account_id ) );
+}
+
+function getAccountRowByDataId ( account_id ) {
+	return $(".account-row[data-account-id='" + account_id + "']");
+}
+
+function getDetailViewAccountId () {
+	// return data set from clicking the account-summary element
+	return getDetailView('account').data('account-id');
+}
+
+function getCurrentDateString () {
+	var today = new Date();
+	return today.getFullYear() + '/' + 
+		lead( today.getMonth() + 1 ) + '/' + 
+		today.getDate(); 
+}
+
+function lead ( number ) {
+    return ( number < 10 ? '0': '' ) + number;
+}
 
 function toggleAccountDetail ( $account_detail ) {
-	return $account_detail.fadeToggle();
+	return $account_detail.slideToggle();
 }
 
 function getAccountSummaryParentRow ( $account_summary ) {
@@ -58,25 +168,47 @@ function getDetailRowEntryId ( $detail_row ) {
 	return $detail_row.data('entry-id');
 }
 
-function getDetailViewEntry () {
-	return $('.detail-view-entry');
+function getDetailField ( detail_view, field ) {
+	return detail_view.find( '.detail-view-' + field );
 }
 
-function getDetailView () {
-	return $('.detail-view');
+function getDetailView ( section ) {
+	if ( section ) {
+		return $('.detail-view .detail-view-' + section);
+	} else{
+		return $('div.detail-view');
+	}
+}
+
+function showDetailView ( section ) {
+	if ( Cashflow.activeDetailSection !== section ) {
+		clearDetailViews();
+		Cashflow.activeDetailSection = section;
+		return getDetailView( section ).slideDown();
+	}
 }
 
 function clearDetailViews () {
+	Cashflow.activeDetailSection = null;
 	return getDetailView().children('div').slideUp();
 }
 
 /**
  * Show the details of the Entry to front-end
- * @param  {obj} entry_data
+ * @param  {obj} entry
  * @return {bool}          true for success
  */
-function showEntryDetail ( entry_data ) {
-	console.log( entry_data );
+function showEntryDetail ( entry ) {
+	// set detail values
+	var detail_view = getDetailView('entry'),
+		account     = Cashflow.Accounts.getAccount( entry.account.id );
+	// set data
+	detail_view.data('entry-id', entry._id);
+	// set contents
+	getDetailField( detail_view, 'account' ).html( account.name );
+	getDetailField( detail_view, 'date-used' ).html( entry.date.used );
+	// show
+	showDetailView('entry');
 }
 
 function initializeApp () {
@@ -84,4 +216,10 @@ function initializeApp () {
 	Cashflow.Budgets  = new Cashflow.classes.app.Budget();
 	Cashflow.Entries  = new Cashflow.classes.app.Entry();
 	Cashflow.Accounts = new Cashflow.classes.app.Account( Cashflow.Budgets, Cashflow.Users, Cashflow.Entries );
+}
+
+function initializePlugin () {
+	$('input[name="date"]').pickadate({
+		format: Cashflow.global.constants.dateFormat,
+	});
 }

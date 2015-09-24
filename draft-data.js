@@ -6,6 +6,7 @@ var entry = {
 		id: "55fa1a1567768a1f160e485e",
 	},
 	description: '1st Week Allowance',
+	remarks: 'Some details to remember',
 	amount: 1000,
 	date: {
 		used:'2015/09/01',
@@ -57,3 +58,17 @@ Create Budget
 	Select Account
 	Assign allocation
 Assign Budget to User
+
+
+// -------------------------
+// User
+{name:"Marlo", active:true, settings:{budget:{id:"5603b5656e6cd9208e06b068"}}}
+// Accounts
+{name:"LIV", description:"Living Allowance"}
+{name:"CHR", description:"Church Tithes, Offering and Pledges"}
+// Budgets
+{
+	name:"Sept", accounts:[{id:"5603b4d26e6cd916560ee677", allocation:2000}, {id:"5603b4fa6e6cd910ac08a5e7", allocation:1000}],
+	date:{start:"2015/09/01", end:"2015/09/30"}
+}
+// Entries

@@ -1,3 +1,46 @@
+<!-- templates -->
+<script id="account-template" type="text/template">
+	<div class="row account-row" data-account-id="{{account.id}}">
+		<div class="row account-summary">
+			{{account.summary}}
+		</div>
+		<div class="account-detail text-left" style="display:none;">
+			<table class="table table-hover account-detail-table">
+			{{account.details}}
+			</table>
+		</div>
+	</div>
+</script>
+<script id="account-template" type="text/template">
+	<div class="row account-row" data-account-id="{{account.id}}">
+		<div class="row account-summary"></div>
+		<div class="account-detail text-left" style="display:none;">
+			<table class="table table-hover account-detail-table">{{account.summary}}</table>
+		</div>
+	</div>
+</script>
+<script id="account-summary-template" type="text/template">
+	<div class="row account-row" data-account-id="{{account.id}}">
+		<div class="row account-summary">
+			<div class="col-xs-4 account-column account-column-name">{{account.name}}</div>
+			<div class="col-xs-4 account-column account-column-allocation" data-account-allocation="{{account.allocation}}">{{account.allocation}}</div>
+			<div class="col-xs-4 account-column account-column-balance" data-account-balance="{{account.balance}}" title="Total Expense: {{account.total_expense}}" >
+				{{account.balance}}
+			</div>
+		</div>
+		<div class="account-detail text-left" style="display:none;">
+			<table class="table table-hover account-detail-table"></table>
+		</div>
+	</div>
+</script>
+<script id="account-detail-template" type="text/template">
+	<tr data-entry-id="{{entry.id}}">
+		<td>{{entry.description}}</td>
+		<td>{{entry.amount}}</td>
+	</tr>
+</script>
+<!-- templates -->
+
 
 <script type="text/javascript">
 

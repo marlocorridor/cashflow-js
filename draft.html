@@ -5,33 +5,75 @@
 		<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 		<title>Cashflow JS</title>
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="picker/themes/default.css" rel="stylesheet" type="text/css" />
+		<link href="picker/themes/default.date.css" rel="stylesheet" type="text/css" />
 		<link href="draft.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body class="container">
-		<div class="container account-list" data-budget-list="Sept">
-			
+		<div class="container account-list">
 		</div>
 		<div class="navbar-fixed-bottom detail-view">
+			<!-- contains the detail of the Account -->
+			<div class="container detail-view-account" style="display:none;">
+				<span class="pull-right">
+					<button class="clear-detail-view">close</button>
+				</span>
+				<div class="col-xs-12 detail-view-description"></div>
+				<div class="col-xs-12 detail-view-controls">
+					<button>Update Details</button>
+					<button>Budget Allocation</button>
+					<button class="add-entry">Add Entry</button>
+					<button class="toggle-entries">Toggle Entries</button>
+				</div>
+			</div>
 			<!-- contains the detail of the Entry -->
-			<div class="detail-view-entry">
-				<div class="col-xs-12 detail-view-entry-date-used">Mon</div>
-				<div class="col-xs-12 detail-view-entry-date-created">Now</div>
+			<div class="container detail-view-entry" style="display:none;">
+				<span class="pull-right">
+					<button class="clear-detail-view">close</button>
+				</span>
+				<div class="col-xs-12">
+					<span class="detail-view-account"></span>
+					Date used: <span class="detail-view-date-used"></span></div>
+				<div class="col-xs-12 detail-view-controls">
+					<button>Update Entry</button>
+					<button class="add-entry">Add Entry</button>
+				</div>
+			</div>
+			<!-- contains the form for Entry -->
+			<div class="container detail-view-entry-form" style="display:none;">
+				<span class="pull-right">
+					<button class="clear-detail-view">Cancel</button>
+				</span>
+				<form class="save-entry">
+				<div class="col-xs-12 detail-view-input">
+						<input class="input" type="text" name="description" placeholder="Description">
+						<input class="input" type="text" name="amount" placeholder="Amount">
+						<input class="input" type="text" name="date" placeholder="Date">
+						<input class="input" type="text" name="remark" placeholder="Remark">
+				</div>
+				<div class="col-xs-12 detail-view-controls">
+					<button type="submit">Save Entry</button>
+				</div>
+				</form>
 			</div>
 		</div>
 	</body>
 	<footer>
-		<script id="account-summary-template" type="text/template">
+		<script id="account-template" type="text/template">
 			<div class="row account-row" data-account-id="{{account.id}}">
 				<div class="row account-summary">
-					<div class="col-xs-4 account-column account-column-name">{{account.name}}</div>
-					<div class="col-xs-4 account-column account-column-allocation" data-account-allocation="{{account.allocation}}">{{account.allocation}}</div>
-					<div class="col-xs-4 account-column account-column-balance" data-account-balance="{{account.balance}}" title="Total Expense: {{account.total_expense}}" >
-						{{account.balance}}
-					</div>
+					{{account.summary}}
 				</div>
-				<div class="row account-detail text-left" style="display:none;">
+				<div class="account-detail text-left" style="display:none;">
 					<table class="table table-hover account-detail-table"></table>
 				</div>
+			</div>
+		</script>
+		<script id="account-summary-template" type="text/template">
+			<div class="col-xs-4 account-column account-column-name">{{account.name}}</div>
+			<div class="col-xs-4 account-column account-column-allocation" data-account-allocation="{{account.allocation}}">{{account.allocation}}</div>
+			<div class="col-xs-4 account-column account-column-balance" data-account-balance="{{account.balance}}" title="Total Expense: {{account.total_expense}}" >
+				{{account.balance}}
 			</div>
 		</script>
 		<script id="account-detail-template" type="text/template">
