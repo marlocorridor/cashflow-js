@@ -97,6 +97,7 @@ var Cashflow = {
 				budget   = this.getBudget();
 			this.assignAccountsAllocation( accounts, budget );
 			this.assignAccountsTotalExpense( accounts, budget );
+			this.assignAccountsProgressBarStyles( accounts );
 
 			// render account summary list
 			var template_str = this.getAccountTemplateString( this.template ),
@@ -141,6 +142,38 @@ var Cashflow = {
 			);
 		};
 
+		this.assignAccountsProgressBarStyles = function ( accounts ) {
+			if ( accounts.length == 0 ) {
+				return;
+			};
+
+			accounts[0].progress = this.getAccountProgressBarStyles( accounts[0] );
+
+			// recursive call
+			return this.assignAccountsProgressBarStyles(
+				accounts.slice(1)
+			);
+		};
+
+		this.getAccountProgressBarStyles = function ( account ) {
+			var progress, progress_percentage; 
+
+			progress_percentage = this.calculatePercentage(
+				account.total_expense,
+				account.allocation
+			);
+
+			progress = {
+				percentage: progress_percentage,
+				color     : this.calculateColorStyle(
+					progress_percentage.value, progress_percentage.isOverflow
+				),
+				overflow_class : this.calculateOverflowClass( progress_percentage.isOverflow ),
+			};
+
+			return progress;
+		};
+
 		this.getAccountTotalExpense = function ( account, budget ) {
 
 			var account_budgeted_entries = this.entries.findAccountBudgetRange(
@@ -164,20 +197,15 @@ var Cashflow = {
 		};
 
 		this.renderAccountList = function ( account, template_str ) {
-			var percentage, alignment, color;
-
-			percentage = this.calculatePercentage( account.total_expense, account.allocation );
-			alignment  = this.calculateAlignmentStyle( percentage.isOverflow );
-			color      = this.calculateColorStyle( percentage.value, percentage.isOverflow );
 
 			return template_str
 				.replace( /{{account.id}}/g, account._id.toString() )
 				.replace( /{{account.name}}/g, account.name )
 				.replace( /{{account.allocation}}/g, account.allocation )
 				.replace( /{{account.total_expense}}/g, account.total_expense )
-				.replace( /{{account.progress.usage_percentage}}/g, percentage.value )
-				.replace( /{{account.progress.alignment}}/g, alignment )
-				.replace( /{{account.progress.color}}/g, color )
+				.replace( /{{account.progress.usage_percentage}}/g, account.progress.percentage.value )
+				.replace( /{{account.progress.overflow_class}}/g, account.progress.overflow_class )
+				.replace( /{{account.progress.color}}/g, account.progress.color )
 				.replace( /{{account.balance}}/g, account.allocation - account.total_expense );
 
 			// clean rendered string - remove unrendered fields
@@ -203,6 +231,10 @@ var Cashflow = {
 				value: final_percentage,
 				isOverflow: !!overflow_percentage
 			};
+		};
+
+		this.calculateOverflowClass = function ( is_overflow ) {
+			return ( is_overflow ) ? 'right' : 'left';
 		};
 
 		this.calculateAlignmentStyle = function ( is_overflow ) {
@@ -247,6 +279,7 @@ var Cashflow = {
 
 			account.total_expense = this.getAccountTotalExpense( account, budget );
 			account.allocation    = this.getBudgetAllocation( budget.accounts, account_id );
+			account.progress      = this.getAccountProgressBarStyles( account );
 
 			target_elem.html(
 				this.renderAccountList( account, template_str )

@@ -4,15 +4,30 @@
 
 .account-row .account-detail{
 	max-height: 100px;
-	overflow: scroll;
+	overflow: auto;
 }
 
 .account-summary .progress{
 	position: relative;
+	margin-bottom: 5px;
+}
+
+.account-summary .progress-bar-left{
+	animation-direction: reverse;
+	float: left;
+}
+
+.account-summary .progress-bar-right{
+	animation-direction: normal;
+	float: right;
 }
 
 .account-summary .progress-label{
 	position: absolute;
 	width: 100%;
 	left: 0;
+}
+
+.detail-view-remarks:empty{
+	display: none;
 }

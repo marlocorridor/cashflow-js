@@ -207,6 +207,7 @@ function showEntryDetail ( entry ) {
 	detail_view.data('entry-id', entry._id);
 	// set contents
 	getDetailField( detail_view, 'account' ).html( account.name );
+	getDetailField( detail_view, 'remarks' ).html( entry.remarks );
 	getDetailField( detail_view, 'date-used' ).html( entry.date.used );
 	// show
 	showDetailView('entry');
