@@ -144,7 +144,7 @@ var Cashflow = {
 		this.getAccountTotalExpense = function ( account, budget ) {
 
 			var account_budgeted_entries = this.entries.findAccountBudgetRange(
-				account._id.toString(),
+				account._id,
 				budget.date.start,
 				budget.date.end
 			);
@@ -164,15 +164,56 @@ var Cashflow = {
 		};
 
 		this.renderAccountList = function ( account, template_str ) {
+			var percentage, alignment, color;
+
+			percentage = this.calculatePercentage( account.total_expense, account.allocation );
+			alignment  = this.calculateAlignmentStyle( percentage.isOverflow );
+			color      = this.calculateColorStyle( percentage.value, percentage.isOverflow );
+
 			return template_str
 				.replace( /{{account.id}}/g, account._id.toString() )
 				.replace( /{{account.name}}/g, account.name )
 				.replace( /{{account.allocation}}/g, account.allocation )
 				.replace( /{{account.total_expense}}/g, account.total_expense )
+				.replace( /{{account.progress.usage_percentage}}/g, percentage.value )
+				.replace( /{{account.progress.alignment}}/g, alignment )
+				.replace( /{{account.progress.color}}/g, color )
 				.replace( /{{account.balance}}/g, account.allocation - account.total_expense );
 
 			// clean rendered string - remove unrendered fields
 			// rendered_str = rendered_str.replace( /{{[\S]+}}/,'' );
+		};
+
+		this.calculatePercentage = function ( expense, allocation ) {
+			var base_percentage, overflow_percentage, final_percentage;
+			// calculate percentages
+			base_percentage     = ( expense/allocation ) * 100;
+			overflow_percentage = ( base_percentage  > 100 ) ? ( (expense-allocation)/allocation ) * 100 : 0;
+			// use overflow percentage if expense is greater than allocation
+			final_percentage    = ( base_percentage  > 100 ) ? overflow_percentage : base_percentage;
+			// use 100% as max percentage
+			final_percentage    = ( final_percentage > 100 ) ? 100 : final_percentage;
+
+			console.log(base_percentage, overflow_percentage, final_percentage,{
+				value: final_percentage,
+				isOverflow: !!overflow_percentage
+			});
+
+			return {
+				value: final_percentage,
+				isOverflow: !!overflow_percentage
+			};
+		};
+
+		this.calculateAlignmentStyle = function ( is_overflow ) {
+			return ( is_overflow ) ? 'right' : 'left';
+		};
+
+		this.calculateColorStyle = function ( percentage, is_overflow ) {
+			// 'success' 'warning' 'danger';
+			return ( is_overflow ) ? 'danger' : 
+				// else
+				( percentage > 75 ) ? 'warning' : 'success';
 		};
 
 		this.getAccountTemplateString = function ( template ) {
@@ -303,7 +344,7 @@ var Cashflow = {
 
 		this.findAccountBudgetRange = function ( account_id, start_date, end_date ) {
 			return this.db.find({
-				'account._id': account_id,
+				'account.id': account_id,
 				'date.used': {
 					$gte: start_date,
 					$lte: end_date

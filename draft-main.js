@@ -27,6 +27,7 @@
 			var detail_view = getDetailView('account');
 			detail_view.data('account-id', account._id.toString());
 			getDetailField( detail_view, 'description' ).html( account.description );
+			getDetailField( detail_view, 'total-expense' ).html( account.total_expense );
 			showDetailView('account');
 
 			// render detail

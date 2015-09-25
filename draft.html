@@ -16,9 +16,15 @@
 			<!-- contains the detail of the Account -->
 			<div class="container detail-view-account" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">close</button>
+					<button class="clear-detail-view">
+						<i class="glyphicon glyphicon-remove-circle"></i>
+						close
+					</button>
 				</span>
 				<div class="col-xs-12 detail-view-description"></div>
+				<div class="col-xs-12">
+					Total Expenses: <span class="detail-view-total-expense"></span>
+				</div>
 				<div class="col-xs-12 detail-view-controls">
 					<button>Update Details</button>
 					<button>Budget Allocation</button>
@@ -29,11 +35,15 @@
 			<!-- contains the detail of the Entry -->
 			<div class="container detail-view-entry" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">close</button>
+					<button class="clear-detail-view">
+						<i class="glyphicon glyphicon-remove-circle"></i>
+						close
+					</button>
 				</span>
 				<div class="col-xs-12">
 					<span class="detail-view-account"></span>
-					Date used: <span class="detail-view-date-used"></span></div>
+					Date used: <span class="detail-view-date-used"></span>
+				</div>
 				<div class="col-xs-12 detail-view-controls">
 					<button>Update Entry</button>
 					<button class="add-entry">Add Entry</button>
@@ -42,7 +52,10 @@
 			<!-- contains the form for Entry -->
 			<div class="container detail-view-entry-form" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">Cancel</button>
+					<button class="clear-detail-view">
+						<i class="glyphicon glyphicon-remove-circle"></i>
+						Cancel
+					</button>
 				</span>
 				<form class="save-entry">
 				<div class="col-xs-12 detail-view-input">
@@ -71,9 +84,13 @@
 		</script>
 		<script id="account-summary-template" type="text/template">
 			<div class="col-xs-4 account-column account-column-name">{{account.name}}</div>
-			<div class="col-xs-4 account-column account-column-allocation" data-account-allocation="{{account.allocation}}">{{account.allocation}}</div>
-			<div class="col-xs-4 account-column account-column-balance" data-account-balance="{{account.balance}}" title="Total Expense: {{account.total_expense}}" >
-				{{account.balance}}
+			<div class="col-xs-8 account-column account-column-graph">
+				<div class="progress">
+					<span class="progress-label"> {{account.total_expense}} / {{account.allocation}} </span>
+			  		<div class="progress-bar progress-bar-{{account.progress.color}} progress-bar-striped active" role="progressbar"
+				  		style="width: {{account.progress.usage_percentage}}%; float: {{account.progress.alignment}}">
+				  	</div>
+				</div>
 			</div>
 		</script>
 		<script id="account-detail-template" type="text/template">

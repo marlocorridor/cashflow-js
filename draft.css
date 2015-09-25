@@ -1,3 +1,18 @@
 .account-list{
 	text-align: center;
 }
+
+.account-row .account-detail{
+	max-height: 100px;
+	overflow: scroll;
+}
+
+.account-summary .progress{
+	position: relative;
+}
+
+.account-summary .progress-label{
+	position: absolute;
+	width: 100%;
+	left: 0;
+}
