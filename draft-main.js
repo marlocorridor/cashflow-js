@@ -77,26 +77,9 @@
 		.on('submit','form.save-entry', function (e) {
 			// prevent default submit behavior
 			e.preventDefault();
-			// set detail values
-			var entry     = {};
-			var form_data = $(this).serializeArray();
 
-			// extract form data
-			form_data.forEach(function ( input ) {
-				entry[input.name] = input.value;
-			});
-
-			// set auto data
-			entry.date = {
-				used: entry.date,
-				created: getCurrentDateString()
-			};
-			entry.account = {
-				id: getDetailViewAccountId()
-			};
-			entry.user = {
-				id: Cashflow.Accounts.users.getActiveUserId()
-			};
+			// get detail values
+			var entry     = generateEntryData( this );
 
 			// Cashflow
 			if ( Cashflow.Accounts.entries.create( entry ) ) {
@@ -109,7 +92,6 @@
 
 				// update summary info
 				Cashflow.Accounts.renderAccountSummary( account_id, target_elem );
-				
 
 				// render detail
 				Cashflow.Accounts.renderAccountEntriesList(
@@ -128,6 +110,32 @@
 
 		});
 })();
+
+function generateEntryData ( form ) {
+	var form_data = $( form ).serializeArray();
+	var entry     = {};
+
+	// extract form data
+	form_data.forEach(function ( input ) {
+		entry[input.name] = input.value;
+	});
+
+	// set auto data
+	entry.date = {
+		used: entry.date,
+		created: getCurrentDateString()
+	};
+
+	entry.account = {
+		id: getDetailViewAccountId()
+	};
+
+	entry.user = {
+		id: Cashflow.Accounts.users.getActiveUserId()
+	};
+
+	return entry;
+}
 
 function getDetailViewByDataId ( account_id ) {
 	return getAccountRowDetail( getAccountRowByDataId( account_id ) );
@@ -207,7 +215,7 @@ function showEntryDetail ( entry ) {
 	detail_view.data('entry-id', entry._id);
 	// set contents
 	getDetailField( detail_view, 'account' ).html( account.name );
-	getDetailField( detail_view, 'remarks' ).html( entry.remarks );
+	getDetailField( detail_view, 'remarks' ).html( entry.remarks || '' );
 	getDetailField( detail_view, 'date-used' ).html( entry.date.used );
 	// show
 	showDetailView('entry');
