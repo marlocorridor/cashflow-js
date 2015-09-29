@@ -17,6 +17,12 @@
 
 // Event Handlers
 (function () {
+	$('.menu-bar')
+		.on('click', '.account-setting', function (e) {
+			// show view
+			showDetailView('account-setting');
+		});
+
 	$('.account-list')
 		.on('click', '.account-row .account-summary', function (e) {
 			var account_row    = getAccountSummaryParentRow( $(this) ),
@@ -70,8 +76,6 @@
 			toggleAccountDetail( account_detail );
 		})
 		.on('click','.add-entry', function (e) {
-			// set detail values
-			var detail_view = getDetailView('entry-form');
 			showDetailView('entry-form');
 		})
 		.on('submit','form.save-entry', function (e) {
@@ -79,7 +83,7 @@
 			e.preventDefault();
 
 			// get detail values
-			var entry     = generateEntryData( this );
+			var entry     = generateFormEntryData( this );
 
 			// Cashflow
 			if ( Cashflow.Accounts.entries.create( entry ) ) {
@@ -108,17 +112,41 @@
 				throw "Invalid user data, please check input";
 			}
 
+		})
+		.on('click','.add-account', function (e) {
+			showDetailView('account-form');
+		})
+		.on('submit','form.save-account', function (e) {
+			// prevent default submit behavior
+			e.preventDefault();
+
+			// get detail values
+			var account = generateFormData( this );
+
+			// Cashflow
+			account_id = Cashflow.Accounts.create( account );
+			if ( account_id ) {
+				Cashflow.Accounts.renderNewAccount( account_id, $('.account-list') );
+			}else{
+				throw "Invalid user data, please check input";
+			}
 		});
 })();
 
-function generateEntryData ( form ) {
+function generateFormData ( form ) {
 	var form_data = $( form ).serializeArray();
-	var entry     = {};
+	var data      = {};
 
 	// extract form data
 	form_data.forEach(function ( input ) {
-		entry[input.name] = input.value;
+		data[input.name] = input.value;
 	});
+
+	return data;
+}
+
+function generateFormEntryData ( form ) {
+	var entry = generateFormData( form );
 
 	// set auto data
 	entry.date = {

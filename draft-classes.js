@@ -93,7 +93,7 @@ var Cashflow = {
 				return;
 			}
 			// prepare accounts summary
-			var accounts = this.db.findAll(),
+			var accounts = _.sortBy( this.db.findAll(), function(row){ return row.name; } ),
 				budget   = this.getBudget();
 			this.assignAccountsAllocation( accounts, budget );
 			this.assignAccountsTotalExpense( accounts, budget );
@@ -177,7 +177,7 @@ var Cashflow = {
 		this.getAccountTotalExpense = function ( account, budget ) {
 
 			var account_budgeted_entries = this.entries.findAccountBudgetRange(
-				account._id,
+				account._id.toString(),
 				budget.date.start,
 				budget.date.end
 			);
@@ -222,11 +222,6 @@ var Cashflow = {
 			// use 100% as max percentage
 			final_percentage    = ( final_percentage > 100 ) ? 100 : final_percentage;
 
-			console.log(base_percentage, overflow_percentage, final_percentage,{
-				value: final_percentage,
-				isOverflow: !!overflow_percentage
-			});
-
 			return {
 				value: final_percentage,
 				isOverflow: !!overflow_percentage
@@ -257,11 +252,14 @@ var Cashflow = {
 
 		this.renderAccountEntriesList = function ( account_id, target_elem ) {
 			var budget  = this.getBudget();
-			var entries = this.entries.findAccountBudgetRange(
-				account_id,
-				budget.date.start,
-				budget.date.end
-			);
+			var entries = _.sortBy(
+					this.entries.findAccountBudgetRange(
+						account_id,
+						budget.date.start,
+						budget.date.end
+					), function(row){
+						return new Date( row.date.used );
+				});
 
 			var template_str = $(this.template.detail.src).html();
 			target_elem.html(
@@ -287,6 +285,22 @@ var Cashflow = {
 
 			return target_elem;
 		};
+
+		this.renderNewAccount = function ( account_id, target_elem ) {
+			// prepare account summary
+			var account = this.getAccount( account_id ),
+				budget  = this.getBudget(),
+				template_str = this.getAccountTemplateString( this.template );
+
+			account.total_expense = this.getAccountTotalExpense( account, budget );
+			account.allocation    = this.getBudgetAllocation( budget.accounts, account_id );
+			account.progress      = this.getAccountProgressBarStyles( account );
+
+			rendered_account = $(this.renderAccountList( account, template_str ));
+			rendered_account.appendTo( target_elem );
+
+			return target_elem;
+		}
 
 		this.getBudgetAllocation = function ( budget_accounts, account_id ) {
 			if ( !budget_accounts.length ) {
@@ -318,6 +332,7 @@ var Cashflow = {
 
 		this.create = function ( account ) {
 			if ( this.validate( account ) ) {
+				account.name = account.name.toUpperCase();
 				return this.db.save( account );
 			} else{
 				return false;
@@ -384,7 +399,7 @@ var Cashflow = {
 				}
 			});
 		};
-
+ 
 		this.getAmountSum = function ( entries ) {
 			if( !entries.length ){
 				return 0;

@@ -1,3 +1,9 @@
+/* for fixed nav bar */
+body { 
+	padding-top: 70px;
+}
+
+/* list */
 .account-list{
 	text-align: center;
 }
@@ -10,6 +16,10 @@
 .account-summary .progress{
 	position: relative;
 	margin-bottom: 5px;
+}
+
+.progress-bar.active{
+	animation-timing-function: cubic-bezier(0.77,0,0.18,1);
 }
 
 .account-summary .progress-bar-left{
@@ -28,6 +38,31 @@
 	left: 0;
 }
 
+/* details */
 .detail-view-remarks:empty{
 	display: none;
+}
+
+.detail-view .container{
+	background-color: #F8F8F8;
+	background-color: rgba(248, 248, 248, 0.95);
+	border-top: dashed #ccc 1px; 
+	margin-bottom: 10px;
+}
+
+.detail-view .detail-view-input{
+	margin-bottom: 10px;
+}
+
+/* forms */
+input.form-control.picker__input{
+	background-color: inherit;
+}
+
+input[type='text']{
+	border-radius: 0px;
+}
+
+input.abbreviation[name='name']{
+	text-transform: uppercase;
 }
