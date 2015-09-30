@@ -42,10 +42,21 @@
 		</div>
 		<div class="navbar-fixed-bottom detail-view">
 			<!-- contains controls for settings -->
+			<div class="container detail-view-budget-setting" style="display:none;">
+				<span class="pull-right">
+					<button class="clear-detail-view">
+						&times;
+					</button>
+				</span>
+				<div class="col-xs-12 detail-view-controls">
+					<button class="update-budget">Update Budget</button>
+				</div>
+			</div>
+			<!-- contains controls for settings -->
 			<div class="container detail-view-account-setting" style="display:none;">
 				<span class="pull-right">
 					<button class="clear-detail-view">
-						<i class="glyphicon glyphicon-remove-circle"></i>
+						&times;
 					</button>
 				</span>
 				<div class="col-xs-12 detail-view-controls">
@@ -56,7 +67,7 @@
 			<div class="container detail-view-account" style="display:none;">
 				<span class="pull-right">
 					<button class="clear-detail-view">
-						<i class="glyphicon glyphicon-remove-circle"></i>
+						&times;
 					</button>
 				</span>
 				<div class="col-xs-12 detail-view-description"></div>
@@ -74,7 +85,7 @@
 			<div class="container detail-view-entry" style="display:none;">
 				<span class="pull-right">
 					<button class="clear-detail-view">
-						<i class="glyphicon glyphicon-remove-circle"></i>
+						&times;
 					</button>
 				</span>
 				<div class="col-xs-12">
@@ -93,7 +104,7 @@
 			<div class="container detail-view-entry-form" style="display:none;">
 				<span class="pull-right">
 					<button class="clear-detail-view">
-						<i class="glyphicon glyphicon-remove-circle"></i>
+						&times;
 					</button>
 				</span>
 				<form class="navbar-form save-entry">
@@ -114,7 +125,7 @@
 			<div class="container detail-view-account-form" style="display:none;">
 				<span class="pull-right">
 					<button class="clear-detail-view">
-						<i class="glyphicon glyphicon-remove-circle"></i>
+						&times;
 					</button>
 				</span>
 				<form class="navbar-form save-account">
@@ -124,6 +135,26 @@
 				</div>
 				<div class="col-xs-12 detail-view-controls">
 					<button type="submit" class="form-control btn btn-default">Save Account</button>
+				</div>
+				</form>
+			</div>
+			<!-- contains the form for Budget -->
+			<div class="container detail-view-budget-form" style="display:none;">
+				<span class="pull-right">
+					<button class="clear-detail-view">
+						&times;
+					</button>
+				</span>
+				<form class="navbar-form save-budget">
+				<div class="col-xs-12 detail-view-input">
+					<input class="input form-control detail-view-input-name" type="text" name="name" placeholder="Name">
+					<input class="input form-control detail-view-input-date-start" type="text" name="date-start" placeholder="Date Start">
+					<input class="input form-control detail-view-input-date-end" type="text" name="date-end" placeholder="Date End">
+				</div>
+				<div class="col-xs-12 detail-view-controls">
+					<button type="submit" class="form-control btn btn-default">
+						<span class="detail-view-action">Create</span> Entry
+					</button>
 				</div>
 				</form>
 			</div>

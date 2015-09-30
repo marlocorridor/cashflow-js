@@ -18,6 +18,10 @@
 // Event Handlers
 (function () {
 	$('.menu-bar')
+		.on('click', '.budget-setting', function (e) {
+			// show view
+			showDetailView('budget-setting');
+		})
 		.on('click', '.account-setting', function (e) {
 			// show view
 			showDetailView('account-setting');
@@ -33,7 +37,9 @@
 			var detail_view = getDetailView('account');
 			detail_view.data('account-id', account._id.toString());
 			getDetailField( detail_view, 'description' ).html( account.description );
-			getDetailField( detail_view, 'total-expense' ).html( account.total_expense );
+			getDetailField( detail_view, 'total-expense' ).html(
+				numeral(account.total_expense).format( Cashflow.global.constants.numberFormat )
+			);
 			showDetailView('account');
 
 			// render detail
@@ -78,6 +84,7 @@
 		.on('click','.add-entry', function (e) {
 			// set detail values
 			var detail_view = getDetailView('entry-form');
+			clearDetailViewInputFields( detail_view );
 			getDetailField( detail_view, 'action' ).html( 'Create' );
 			showDetailView('entry-form');
 		})
@@ -142,6 +149,10 @@
 
 		})
 		.on('click','.add-account', function (e) {
+			clearDetailViewInputFields( getDetailView('account-form') );
+			showDetailView('account-form');
+		})
+		.on('click','.update-account', function (e) {
 			showDetailView('account-form');
 		})
 		.on('submit','form.save-account', function (e) {
@@ -158,6 +169,9 @@
 			}else{
 				throw "Invalid user data, please check input";
 			}
+		})
+		.on('click','.update-budget', function (e) {
+			showDetailView('budget-form');
 		});
 })();
 
@@ -248,6 +262,10 @@ function getDetailRowEntryId ( $detail_row ) {
 	return $detail_row.data('entry-id');
 }
 
+function getDetailInputField ( detail_view, field ) {
+	return getDetailField( detail_view, 'input-' + field );
+}
+
 function getDetailField ( detail_view, field ) {
 	return detail_view.find( '.detail-view-' + field );
 }
@@ -266,6 +284,10 @@ function showDetailView ( section ) {
 		Cashflow.activeDetailSection = section;
 		return getDetailView( section ).slideDown();
 	}
+}
+
+function clearDetailViewInputFields ( detail_view ) {
+	return detail_view.find( "input[class*='detail-view-input-']" ).val('');
 }
 
 function clearDetailViews () {
@@ -300,7 +322,7 @@ function initializeApp () {
 }
 
 function initializePlugin () {
-	$('input[name="date"]').pickadate({
+	$('input[name*="date"]').pickadate({
 		format: Cashflow.global.constants.dateFormat,
 	});
 }

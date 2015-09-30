@@ -37,6 +37,7 @@ var Cashflow = {
 	// Constants
 	Cashflow.global.constants = {
 		dateFormat: 'yyyy/mm/dd',
+		numberFormat: '0,0.00',
 	};
 
 	// Functions
@@ -367,7 +368,9 @@ var Cashflow = {
 				tmp_str = template_str
 					.replace( /{{entry.id}}/g, entry._id )
 					.replace( /{{entry.description}}/g, entry.description )
-					.replace( /{{entry.amount}}/g, entry.amount )
+					.replace( /{{entry.amount}}/g, numeral(entry.amount)
+						.format( Cashflow.global.constants.numberFormat )
+					);
 				rendered_str += tmp_str;
 			});
 
