@@ -76,6 +76,28 @@
 			toggleAccountDetail( account_detail );
 		})
 		.on('click','.add-entry', function (e) {
+			// set detail values
+			var detail_view = getDetailView('entry-form');
+			getDetailField( detail_view, 'action' ).html( 'Create' );
+			showDetailView('entry-form');
+		})
+		.on('click','.update-entry', function (e) {
+			// set detail values
+			var detail_view = getDetailView('entry-form');
+			var entry       = Cashflow.Entries.getEntry(
+				getDetailView('entry').data('entry-id')
+			);
+
+			detail_view.data(
+				'entry-id',
+				entry._id
+			);
+
+			getDetailField( detail_view, 'input-description' ).val( entry.description );
+			getDetailField( detail_view, 'input-amount' ).val( entry.amount );
+			getDetailField( detail_view, 'input-date' ).val( entry.date.used );
+			getDetailField( detail_view, 'input-remarks' ).val( entry.remarks );
+			getDetailField( detail_view, 'action' ).html( 'Update' );
 			showDetailView('entry-form');
 		})
 		.on('submit','form.save-entry', function (e) {
@@ -83,10 +105,16 @@
 			e.preventDefault();
 
 			// get detail values
-			var entry     = generateFormEntryData( this );
+			var entry    = generateFormEntryData( this );
+			var entry_id = getDetailViewEntryFormEntryId();
+
+			// detemine action
+			var result = ( isDetailViewEntryFormUpdateAction() ) ? 
+				Cashflow.Accounts.entries.update( entry, entry_id ) :
+				Cashflow.Accounts.entries.create( entry );
 
 			// Cashflow
-			if ( Cashflow.Accounts.entries.create( entry ) ) {
+			if ( result ) {
 				var account_id, account_row, account_detail, target_elem;
 
 				account_id     = getDetailViewAccountId();
@@ -132,6 +160,21 @@
 			}
 		});
 })();
+
+function getDetailViewEntryFormEntryId () {
+	return getDetailView('entry-form').data( 'entry-id' );
+}
+
+function getDetailViewEntryFormAction () {
+	return getDetailField( 
+		getDetailView('entry-form'),
+		'action'
+	).html();
+}
+
+function isDetailViewEntryFormUpdateAction () {
+	return getDetailViewEntryFormAction().toLowerCase() == 'update';
+}
 
 function generateFormData ( form ) {
 	var form_data = $( form ).serializeArray();

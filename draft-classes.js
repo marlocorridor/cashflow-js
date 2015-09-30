@@ -421,6 +421,17 @@ var Cashflow = {
 			};
 		};
 
+		this.update = function ( entry, entry_id ) {
+			if ( this.validate( entry ) ) {
+				entry.amount = parseInt( entry.amount );
+				return this.db.update( {_id: entry_id }, {
+					$set: entry
+				},{},true);
+			} else{
+				return false;
+			};
+		};
+
 		this.validate = function ( entry ) {
 			// check for required fields
 			return entry.description &&

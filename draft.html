@@ -85,7 +85,7 @@
 					<div class="well well-sm detail-view-remarks"></div>
 				</div>
 				<div class="col-xs-12 detail-view-controls">
-					<button>Update Entry</button>
+					<button class="update-entry">Update Entry</button>
 					<button class="add-entry">Add Entry</button>
 				</div>
 			</div>
@@ -98,13 +98,15 @@
 				</span>
 				<form class="navbar-form save-entry">
 				<div class="col-xs-12 detail-view-input">
-					<input class="input form-control" type="text" name="description" placeholder="Description">
-					<input class="input form-control" type="text" name="amount" placeholder="Amount">
-					<input class="input form-control" type="text" name="date" placeholder="Date">
-					<input class="input form-control" type="text" name="remarks" placeholder="Remark">
+					<input class="input form-control detail-view-input-description" type="text" name="description" placeholder="Description">
+					<input class="input form-control detail-view-input-amount" type="text" name="amount" placeholder="Amount">
+					<input class="input form-control detail-view-input-date" type="text" name="date" placeholder="Date">
+					<input class="input form-control detail-view-input-remarks" type="text" name="remarks" placeholder="Remarks">
 				</div>
 				<div class="col-xs-12 detail-view-controls">
-					<button type="submit" class="form-control btn btn-default">Save Entry</button>
+					<button type="submit" class="form-control btn btn-default">
+						<span class="detail-view-action">Create</span> Entry
+					</button>
 				</div>
 				</form>
 			</div>
