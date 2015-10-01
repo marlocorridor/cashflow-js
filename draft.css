@@ -88,17 +88,31 @@ input.abbreviation[name='name']{
 	text-transform: uppercase;
 }
 
-button.clear-detail-view{
-	background-color: rgb(249, 109, 109);
+.btn-cf{
+	background-color: #777;
 	border-radius: 50%;
 	border: medium none;
 	border: solid 2px;
 	width: 30px;
 	height: 30px;
+	color: white;
+}
+
+.btn-cf.btn-cancel{
+	background-color: #F96D6D;
 	position: absolute;
 	top: -14px;
 	right: 10px;
-	color: white;
+}
+.btn-cf.btn-edit{
+	background-color: #00A7BD;
+}
+.btn-cf.btn-create{
+	background-color: #9ce95d;
+	font-weight: bold;
+}
+.btn-cf.btn-toggle{
+	background-color: #e2e95d;
 }
 
 /* info */

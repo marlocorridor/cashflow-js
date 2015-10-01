@@ -111,12 +111,12 @@
 			// prevent default submit behavior
 			e.preventDefault();
 
+			var detail_view = getDetailView('entry-form');
 			// get detail values
 			var entry    = generateFormEntryData( this );
-			var entry_id = getDetailViewEntryFormEntryId();
-
+			var entry_id = getDetailViewFormDataId( detail_view, 'entry' );
 			// detemine action
-			var result = ( isDetailViewEntryFormUpdateAction() ) ? 
+			var result = ( isDetailViewFormUpdateAction( detail_view ) ) ? 
 				Cashflow.Accounts.entries.update( entry, entry_id ) :
 				Cashflow.Accounts.entries.create( entry );
 
@@ -127,7 +127,7 @@
 				account_id     = getDetailViewAccountId();
 				account_row    = getAccountRowByDataId( account_id );
 				account_detail = getAccountRowDetail( account_row );
-				target_elem    = getAccountRowByDataId( account_id ).children('.account-summary');
+				target_elem    = getAccountRowSummary( account_row );
 
 				// update summary info
 				Cashflow.Accounts.renderAccountSummary( account_id, target_elem );
@@ -149,23 +149,58 @@
 
 		})
 		.on('click','.add-account', function (e) {
-			clearDetailViewInputFields( getDetailView('account-form') );
+			var detail_view = getDetailView('account-form');
+
+			clearDetailViewInputFields( detail_view );
+			getDetailField( detail_view, 'action' ).html( 'Save' );
+
 			showDetailView('account-form');
 		})
 		.on('click','.update-account', function (e) {
+			// set detail values
+			var detail_view = getDetailView('account-form');
+			var account     = Cashflow.Accounts.getAccount( getDetailViewAccountId() );
+
+			detail_view.data(
+				'account-id',
+				account._id
+			);
+
+			getDetailField( detail_view, 'input-name' ).val( account.name );
+			getDetailField( detail_view, 'input-description' ).val( account.description );
+			getDetailField( detail_view, 'action' ).html( 'Update' );
 			showDetailView('account-form');
 		})
 		.on('submit','form.save-account', function (e) {
 			// prevent default submit behavior
 			e.preventDefault();
 
+
+			var detail_view = getDetailView('account-form');
 			// get detail values
 			var account = generateFormData( this );
+			var account_id = getDetailViewFormDataId( detail_view, 'account' );
+			// detemine action
+			var is_update = isDetailViewFormUpdateAction( detail_view );
+			var result    = ( is_update ) ? 
+				Cashflow.Accounts.update( account, account_id ) :
+				Cashflow.Accounts.create( account );
 
 			// Cashflow
-			account_id = Cashflow.Accounts.create( account );
-			if ( account_id ) {
-				Cashflow.Accounts.renderNewAccount( account_id, $('.account-list') );
+			if ( result ) {
+				if ( is_update ) {
+					var account_row, account_detail, target_elem;
+
+					account_row = getAccountRowByDataId( account_id );
+					target_elem = getAccountRowSummary( account_row );
+
+					Cashflow.Accounts.renderAccountSummary( account_id, target_elem );
+				} else{
+					Cashflow.Accounts.renderNewAccount(
+						account._id,
+						$( Cashflow.Accounts.template.container.target )
+					);
+				}
 			}else{
 				throw "Invalid user data, please check input";
 			}
@@ -175,19 +210,21 @@
 		});
 })();
 
-function getDetailViewEntryFormEntryId () {
-	return getDetailView('entry-form').data( 'entry-id' );
+function getDetailViewFormDataId ( detail_view, field ) {
+	return detail_view.data( field + '-id' );
 }
 
-function getDetailViewEntryFormAction () {
+function getDetailViewFormAction ( detail_view ) {
 	return getDetailField( 
-		getDetailView('entry-form'),
+		detail_view,
 		'action'
 	).html();
 }
 
-function isDetailViewEntryFormUpdateAction () {
-	return getDetailViewEntryFormAction().toLowerCase() == 'update';
+function isDetailViewFormUpdateAction ( detail_view ) {
+	var form_action = getDetailViewFormAction( detail_view ).toLowerCase();
+	var is_update   = form_action == 'update';
+	return is_update;
 }
 
 function generateFormData ( form ) {
@@ -222,10 +259,6 @@ function generateFormEntryData ( form ) {
 	return entry;
 }
 
-function getDetailViewByDataId ( account_id ) {
-	return getAccountRowDetail( getAccountRowByDataId( account_id ) );
-}
-
 function getAccountRowByDataId ( account_id ) {
 	return $(".account-row[data-account-id='" + account_id + "']");
 }
@@ -252,6 +285,10 @@ function toggleAccountDetail ( $account_detail ) {
 
 function getAccountSummaryParentRow ( $account_summary ) {
 	return $account_summary.parent();
+}
+
+function getAccountRowSummary ( $account_row ) {
+	return $account_row.children( '.account-summary' );
 }
 
 function getAccountRowDetail ( $account_row ) {

@@ -270,37 +270,41 @@ var Cashflow = {
 			return target_elem;
 		};
 
+		this.renderAccount = function ( account, budget, template_str ,target_elem, closure ) {
+			// assign derived attributes
+			account.total_expense = this.getAccountTotalExpense( account, budget );
+			account.allocation    = this.getBudgetAllocation( budget.accounts, account._id.toString() );
+			account.progress      = this.getAccountProgressBarStyles( account );
+
+			// render template
+			var rendered_account = this.renderAccountList( account, template_str );
+			return closure( target_elem, rendered_account );
+		};
+
 		this.renderAccountSummary = function ( account_id, target_elem ) {
 			// prepare account summary
 			var account = this.getAccount( account_id ),
 				budget  = this.getBudget(),
 				template_str = $( this.template.list.src ).html();
 
-			account.total_expense = this.getAccountTotalExpense( account, budget );
-			account.allocation    = this.getBudgetAllocation( budget.accounts, account_id );
-			account.progress      = this.getAccountProgressBarStyles( account );
-
-			target_elem.html(
-				this.renderAccountList( account, template_str )
-			);
-
-			return target_elem;
+			return this.renderAccount(
+				account, budget, template_str ,target_elem, 
+				function ( target_elem, rendered_account ) {
+					return target_elem.html( rendered_account );
+				});
 		};
 
 		this.renderNewAccount = function ( account_id, target_elem ) {
-			// prepare account summary
+			// prepare new account
 			var account = this.getAccount( account_id ),
 				budget  = this.getBudget(),
 				template_str = this.getAccountTemplateString( this.template );
 
-			account.total_expense = this.getAccountTotalExpense( account, budget );
-			account.allocation    = this.getBudgetAllocation( budget.accounts, account_id );
-			account.progress      = this.getAccountProgressBarStyles( account );
-
-			rendered_account = $(this.renderAccountList( account, template_str ));
-			rendered_account.appendTo( target_elem );
-
-			return target_elem;
+			return this.renderAccount(
+				account, budget, template_str ,target_elem, 
+				function ( target_elem, rendered_account ) {
+					return $( rendered_account ).appendTo( target_elem );
+				});
 		}
 
 		this.getBudgetAllocation = function ( budget_accounts, account_id ) {
@@ -335,6 +339,16 @@ var Cashflow = {
 			if ( this.validate( account ) ) {
 				account.name = account.name.toUpperCase();
 				return this.db.save( account );
+			} else{
+				return false;
+			};
+		};
+
+		this.update = function ( account, account_id ) {
+			if ( this.validate( account ) ) {
+				return this.db.update( {_id: account_id }, {
+					$set: account
+				},{},true);
 			} else{
 				return false;
 			};

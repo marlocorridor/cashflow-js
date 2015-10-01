@@ -44,7 +44,7 @@
 			<!-- contains controls for settings -->
 			<div class="container detail-view-budget-setting" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">
+					<button class="clear-detail-view btn-cf btn-cancel">
 						&times;
 					</button>
 				</span>
@@ -55,7 +55,7 @@
 			<!-- contains controls for settings -->
 			<div class="container detail-view-account-setting" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">
+					<button class="clear-detail-view btn-cf btn-cancel">
 						&times;
 					</button>
 				</span>
@@ -66,7 +66,7 @@
 			<!-- contains the detail of the Account -->
 			<div class="container detail-view-account" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">
+					<button class="clear-detail-view btn-cf btn-cancel">
 						&times;
 					</button>
 				</span>
@@ -75,16 +75,24 @@
 					Total Expenses: <span class="detail-view-total-expense"></span>
 				</div>
 				<div class="col-xs-12 detail-view-controls">
-					<button>Update Details</button>
-					<button>Budget Allocation</button>
-					<button class="add-entry">Add Entry</button>
-					<button class="toggle-entries">Toggle Entries</button>
+					<button class="btn-cf btn-edit update-account">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+					<!-- <button class="update-account">Update Details</button> -->
+					<button class="btn-cf btn-create add-entry">
+						<span>&plus;</span>
+					</button>
+					<!-- <button class="add-entry">Add Entry</button> -->
+					<button class="btn-cf btn-toggle toggle-entries">
+						<span class="glyphicon glyphicon-sort"></span>
+					</button>
+					<!-- <button class="toggle-entries">Toggle Entries</button> -->
 				</div>
 			</div>
 			<!-- contains the detail of the Entry -->
 			<div class="container detail-view-entry" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">
+					<button class="clear-detail-view btn-cf btn-cancel">
 						&times;
 					</button>
 				</span>
@@ -96,14 +104,18 @@
 					<div class="well well-sm detail-view-remarks"></div>
 				</div>
 				<div class="col-xs-12 detail-view-controls">
-					<button class="update-entry">Update Entry</button>
-					<button class="add-entry">Add Entry</button>
+					<button class="btn-cf btn-edit update-account">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+					<button class="btn-cf btn-create add-entry">
+						<span>&plus;</span>
+					</button>
 				</div>
 			</div>
 			<!-- contains the form for Entry -->
 			<div class="container detail-view-entry-form" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">
+					<button class="clear-detail-view btn-cf btn-cancel">
 						&times;
 					</button>
 				</span>
@@ -124,24 +136,26 @@
 			<!-- contains the form for Account -->
 			<div class="container detail-view-account-form" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">
+					<button class="clear-detail-view btn-cf btn-cancel">
 						&times;
 					</button>
 				</span>
 				<form class="navbar-form save-account">
 				<div class="col-xs-12 detail-view-input">
-					<input class="input form-control abbreviation" type="text" name="name" placeholder="Account Abbrv." maxlength="5">
-					<input class="input form-control" type="text" name="description" placeholder="Description">
+					<input class="input form-control detail-view-input-name abbreviation" type="text" name="name" placeholder="Account Abbrv." maxlength="5">
+					<input class="input form-control detail-view-input-description" type="text" name="description" placeholder="Description">
 				</div>
 				<div class="col-xs-12 detail-view-controls">
-					<button type="submit" class="form-control btn btn-default">Save Account</button>
+					<button type="submit" class="form-control btn btn-default">
+						<span class="detail-view-action">Save</span> Account
+					</button>
 				</div>
 				</form>
 			</div>
 			<!-- contains the form for Budget -->
 			<div class="container detail-view-budget-form" style="display:none;">
 				<span class="pull-right">
-					<button class="clear-detail-view">
+					<button class="clear-detail-view btn-cf btn-cancel">
 						&times;
 					</button>
 				</span>
