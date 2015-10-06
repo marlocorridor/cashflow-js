@@ -98,6 +98,14 @@ input.abbreviation[name='name']{
 	color: white;
 }
 
+.btn-cf:hover{
+  border-color: #ccc;
+}
+
+.btn-cf:active{
+  border-color: #777;
+}
+
 .btn-cf.btn-cancel{
 	background-color: #F96D6D;
 	position: absolute;

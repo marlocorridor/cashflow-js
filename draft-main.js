@@ -42,11 +42,16 @@
 			);
 			showDetailView('account');
 
-			// render detail
-			Cashflow.Accounts.renderAccountEntriesList(
-				account_row.data('account-id'),
-				account_detail.find('table')
-			);
+			// check if already rendered
+			if ( !account_detail.data('rendered') ) {
+				// set rendered flag
+				account_detail.data('rendered', true);
+				// render detail
+				Cashflow.Accounts.renderAccountEntriesList(
+					account_row.data('account-id'),
+					account_detail.find('table')
+				);
+			};
 
 			// show detail
 			toggleAccountDetail( account_detail );
@@ -346,7 +351,7 @@ function showEntryDetail ( entry ) {
 	// set contents
 	getDetailField( detail_view, 'account' ).html( account.name );
 	getDetailField( detail_view, 'remarks' ).html( entry.remarks || '' );
-	getDetailField( detail_view, 'date-used' ).html( entry.date.used );
+	getDetailField( detail_view, 'date-used' ).html( moment( entry.date.used ).format( Cashflow.global.constants.dateMomentFormat ) );
 	// show
 	showDetailView('entry');
 }

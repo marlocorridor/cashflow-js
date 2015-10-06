@@ -37,6 +37,7 @@ var Cashflow = {
 	// Constants
 	Cashflow.global.constants = {
 		dateFormat: 'yyyy/mm/dd',
+		dateMomentFormat: 'MMMM DD, YYYY',
 		numberFormat: '0,0.00',
 	};
 
