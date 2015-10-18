@@ -162,7 +162,6 @@
 			showDetailView( detail_view );
 		})
 		.on('click','.update-account', function (e) {
-			// set detail values
 			var detail_view = getDetailView('account-form');
 			var account     = Cashflow.Accounts.getAccount( getDetailViewAccountId() );
 
@@ -171,6 +170,7 @@
 				account._id
 			);
 
+			// set detail values
 			getDetailField( detail_view, 'input-name' ).val( account.name );
 			getDetailField( detail_view, 'input-description' ).val( account.description );
 			getDetailField( detail_view, 'action' ).html( 'Update' );
@@ -179,7 +179,6 @@
 		.on('submit','form.save-account', function (e) {
 			// prevent default submit behavior
 			e.preventDefault();
-
 
 			var detail_view = getDetailView('account-form');
 			// get detail values
