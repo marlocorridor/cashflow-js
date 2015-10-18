@@ -105,10 +105,10 @@
 				entry._id
 			);
 
-			getDetailField( detail_view, 'input-description' ).val( entry.description );
-			getDetailField( detail_view, 'input-amount' ).val( entry.amount );
-			getDetailField( detail_view, 'input-date' ).val( entry.date.used );
-			getDetailField( detail_view, 'input-remarks' ).val( entry.remarks );
+			getDetailInputField( detail_view, 'description' ).val( entry.description );
+			getDetailInputField( detail_view, 'amount' ).val( entry.amount );
+			getDetailInputField( detail_view, 'date' ).val( entry.date.used );
+			getDetailInputField( detail_view, 'remarks' ).val( entry.remarks );
 			getDetailField( detail_view, 'action' ).html( 'Update' );
 			showDetailView( detail_view );
 		})
