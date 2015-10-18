@@ -40,7 +40,7 @@
 			getDetailField( detail_view, 'total-expense' ).html(
 				numeral(account.total_expense).format( Cashflow.global.constants.numberFormat )
 			);
-			showDetailView('account');
+			showDetailView( detail_view );
 
 			// check if already rendered
 			if ( !account_detail.data('rendered') ) {
@@ -91,7 +91,7 @@
 			var detail_view = getDetailView('entry-form');
 			clearDetailViewInputFields( detail_view );
 			getDetailField( detail_view, 'action' ).html( 'Create' );
-			showDetailView('entry-form');
+			showDetailView( detail_view );
 		})
 		.on('click','.update-entry', function (e) {
 			// set detail values
@@ -110,7 +110,7 @@
 			getDetailField( detail_view, 'input-date' ).val( entry.date.used );
 			getDetailField( detail_view, 'input-remarks' ).val( entry.remarks );
 			getDetailField( detail_view, 'action' ).html( 'Update' );
-			showDetailView('entry-form');
+			showDetailView( detail_view );
 		})
 		.on('submit','form.save-entry', function (e) {
 			// prevent default submit behavior
@@ -159,7 +159,7 @@
 			clearDetailViewInputFields( detail_view );
 			getDetailField( detail_view, 'action' ).html( 'Save' );
 
-			showDetailView('account-form');
+			showDetailView( detail_view );
 		})
 		.on('click','.update-account', function (e) {
 			// set detail values
@@ -174,7 +174,7 @@
 			getDetailField( detail_view, 'input-name' ).val( account.name );
 			getDetailField( detail_view, 'input-description' ).val( account.description );
 			getDetailField( detail_view, 'action' ).html( 'Update' );
-			showDetailView('account-form');
+			showDetailView( detail_view );
 		})
 		.on('submit','form.save-account', function (e) {
 			// prevent default submit behavior
@@ -393,7 +393,7 @@ function showEntryDetail ( entry ) {
 	getDetailField( detail_view, 'remarks' ).html( entry.remarks || '' );
 	getDetailField( detail_view, 'date-used' ).html( moment( entry.date.used ).format( Cashflow.global.constants.dateMomentFormat ) );
 	// show
-	showDetailView('entry');
+	showDetailView( detail_view );
 }
 
 function initializeApp () {
