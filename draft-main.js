@@ -320,11 +320,51 @@ function getDetailView ( section ) {
 	}
 }
 
+function getDetailViewSectionName ( detail_view ) {
+	var detail_view_class_prefix, section_name;
+
+	detail_view_class_prefix = "detail-view-";
+	section_name = detail_view.attr('class').match( 
+			RegExp( detail_view_class_prefix + "([a-zA-Z\-]+)" )
+	);
+
+	// since the `match` method returns an array, 
+	// 	what we want is on the last item
+	return _.last( section_name );
+}
+
+function showDetailViewBySectionName ( section_name ) {
+	return getDetailView( section_name ).slideDown();
+}
+
+function showDetailViewByDetailViewObject ( detail_view ) {
+	return detail_view.slideDown();
+}
+
+/**
+ * Shows the detail view element
+ * @param  {string || object} section 
+ *                    detail-view name or the detail-view element
+ * @return {object}         detail-view element for chaining
+ */
 function showDetailView ( section ) {
-	if ( Cashflow.activeDetailSection !== section ) {
+	var section_name, isDetailViewObject;
+
+	if ( _.isString( section ) ) {
+		section_name = section;
+	} else{
+		// determine section name
+		section_name       = getDetailViewSectionName( section );
+		isDetailViewObject = true;
+	};
+
+	if ( Cashflow.activeDetailSection !== section_name ) {
 		clearDetailViews();
-		Cashflow.activeDetailSection = section;
-		return getDetailView( section ).slideDown();
+		Cashflow.activeDetailSection = section_name;
+
+		return isDetailViewObject ? 
+			showDetailViewByDetailViewObject( section ):
+			showDetailViewBySectionName( section_name );
 	}
 }
 
