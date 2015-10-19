@@ -477,12 +477,9 @@ var Cashflow = {
 
 		this.validate = function ( budget ) {
 			// check for required fields
-			return budget.accounts.length && //array 
-				budget.accounts[0].allocation &&
-				budget.accounts[0].id &&
+			return budget.name &&
 				budget.date.start && 
-				budget.date.end &&
-				budget.name;
+				budget.date.end;
 		};
 	};
 
