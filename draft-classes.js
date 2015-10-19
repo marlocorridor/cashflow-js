@@ -475,6 +475,16 @@ var Cashflow = {
 			};
 		};
 
+		this.update = function ( budget, budget_id ) {
+			if ( this.validate( budget ) ) {
+				return this.db.update( {_id: budget_id }, {
+					$set: budget
+				},{},true);
+			} else{
+				return false;
+			};
+		};
+
 		this.validate = function ( budget ) {
 			// check for required fields
 			return budget.name &&
