@@ -224,6 +224,18 @@
 			getDetailField( detail_view, 'action' ).html( 'Update' );
 
 			showDetailView( detail_view );
+		})
+		.on('submit','form.save-budget', function (e) {
+			// prevent default submit behavior
+			e.preventDefault();
+
+			var detail_view = getDetailView('budget-form');
+			// get detail values
+			var budget      = generateFormData( this );
+
+			var budget_id = getDetailViewFormDataId( detail_view, 'budget' );
+			// detemine action update or create
+			var result = Cashflow.Budgets.update( budget, budget_id );
 		});
 })();
 
