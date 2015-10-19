@@ -115,6 +115,10 @@ input.abbreviation[name='name']{
 .btn-cf.btn-edit{
 	background-color: #00A7BD;
 }
+.btn-cf.btn-allocation{
+	background-color: #F9B06C;
+	font-size: 12px;
+}
 .btn-cf.btn-create{
 	background-color: #9ce95d;
 	font-weight: bold;
