@@ -96,6 +96,7 @@ input.abbreviation[name='name']{
 	width: 30px;
 	height: 30px;
 	color: white;
+	z-index: 1;
 }
 
 .btn-cf:hover{
