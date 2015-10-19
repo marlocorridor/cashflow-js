@@ -231,6 +231,14 @@ function isDetailViewFormUpdateAction ( detail_view ) {
 	return is_update;
 }
 
+function isArrayInputName ( input_name ) {
+	return input_name.includes("[]");
+}
+
+function getInputArrayName ( input_name ) {
+	return input_name.replace("[]","");
+}
+
 function generateFormData ( form ) {
 	var form_data = $( form ).serializeArray();
 	var data      = {};
