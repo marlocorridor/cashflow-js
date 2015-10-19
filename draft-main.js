@@ -245,7 +245,19 @@ function generateFormData ( form ) {
 
 	// extract form data
 	form_data.forEach(function ( input ) {
-		data[input.name] = input.value;
+		var split_name, first_key, parsed_input;
+
+		// get the objectified input name with value
+		split_name   = input.name.split('.');
+		parsed_input = generateInputDataObject( 
+			split_name, 
+			input.value
+		);
+
+		// merge parsed input value to current data collection
+		_.merge( data, parsed_input, function ( a, b ) {
+			return _.isArray(a) ? a.concat(b) : undefined;
+		});
 	});
 
 	return data;
