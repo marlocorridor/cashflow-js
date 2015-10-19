@@ -210,7 +210,20 @@
 			}
 		})
 		.on('click','.update-budget', function (e) {
-			showDetailView('budget-form');
+			var detail_view = getDetailView( 'budget-form' );
+			var budget      = Cashflow.Accounts.getBudget();
+
+			detail_view.data(
+				'budget-id',
+				budget._id
+			);
+
+			getDetailInputField( detail_view, 'name' ).val( budget.name );
+			getDetailInputField( detail_view, 'date-start' ).val( budget.date.start );
+			getDetailInputField( detail_view, 'date-end' ).val( budget.date.end );
+			getDetailField( detail_view, 'action' ).html( 'Update' );
+
+			showDetailView( detail_view );
 		});
 })();
 
