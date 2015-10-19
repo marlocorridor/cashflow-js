@@ -251,6 +251,29 @@ function generateFormData ( form ) {
 	return data;
 }
 
+function generateInputDataObject ( name_array, value ) {
+	if ( !name_array.length ) {
+		return value;
+	} else {
+		var obj, obj_key;
+
+		obj     = {};
+		obj_key = name_array[0];
+
+		if ( isArrayInputName( obj_key ) ) {
+			obj_key = getInputArrayName( obj_key );
+			// assign as array
+			obj[ obj_key ] = [ generateInputDataObject( name_array.slice(1), value ) ];
+		} else{
+			// assign as object-key pair
+			obj[ obj_key ] = generateInputDataObject( name_array.slice(1), value );
+		}
+
+		return obj;
+	}
+
+}
+
 function generateFormEntryData ( form ) {
 	var entry = generateFormData( form );
 
