@@ -181,6 +181,51 @@
 			getDetailField( detail_view, 'action' ).html( 'Update' );
 			showDetailView( detail_view );
 		})
+		.on('click','.update-account-allocation', function (e) {
+			var detail_view = getDetailView('account-allocation-form');
+			var account     = Cashflow.Accounts.getAccount( getDetailViewAccountId() );
+			var budget      = Cashflow.Accounts.getBudget();
+
+			detail_view.data(
+				'account-id',
+				account._id.toString()
+			);
+
+			var account_allocation = Cashflow.Accounts.getBudgetAllocation( 
+				budget._id.toString(), account._id.toString()
+			);
+
+
+			// set detail values
+			getDetailField( detail_view, 'account-description' ).html( account.description );
+			getDetailInputField( detail_view, 'account-allocation' ).val( account_allocation );
+			getDetailField( detail_view, 'action' ).html( 'Update' );
+			showDetailView( detail_view );
+		})
+		.on('submit','form.save-account-allocation', function (e) {
+			// prevent default submit behavior
+			e.preventDefault();
+
+			var detail_view = getDetailView('account-allocation-form');
+			// get detail values
+			var account_id = getDetailViewFormDataId( detail_view, 'account' );
+			var budget_id  = Cashflow.Accounts.getBudget()._id.toString();
+			var allocation = generateFormData( this ).allocation;
+			// update always
+			var result = Cashflow.Accounts.setBudgetAllocation( budget_id, account_id, allocation );
+
+			// Cashflow
+			if ( result ) {
+				var account_row, account_detail, target_elem;
+
+				account_row = getAccountRowByDataId( account_id );
+				target_elem = getAccountRowSummary( account_row );
+
+				Cashflow.Accounts.renderAccountSummary( account_id, target_elem );
+			}else{
+				throw "Update unsuccessful";
+			}
+		})
 		.on('submit','form.save-account', function (e) {
 			// prevent default submit behavior
 			e.preventDefault();
