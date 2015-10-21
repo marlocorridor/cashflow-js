@@ -176,8 +176,8 @@
 			);
 
 			// set detail values
-			getDetailField( detail_view, 'input-name' ).val( account.name );
-			getDetailField( detail_view, 'input-description' ).val( account.description );
+			getDetailInputField( detail_view, 'name' ).val( account.name );
+			getDetailInputField( detail_view, 'description' ).val( account.description );
 			getDetailField( detail_view, 'action' ).html( 'Update' );
 			showDetailView( detail_view );
 		})
