@@ -518,9 +518,26 @@ var Cashflow = {
 
 	Cashflow.classes.app.Budget = function () {
 		Cashflow.classes.db.TableClass.call(this, 'budget');
+		Cashflow.classes.db.ManyToManyRelationClass.call(
+			this, 'allocations','allocation', 'budget_id', 'account_id'
+		);
 
 		this.getBudget = function ( budget_id ) {
 			return this.db.findOne( budget_id );
+		};
+
+		this.setAccountAllocation = function ( budget_id, account_id, value ) {
+			// set as float
+			value = parseFloat( value );
+			return this.allocations.set( budget_id, account_id, value );
+		};
+
+		this.getAccountAllocation = function ( budget_id, account_id ) {
+			var allocation;
+			// gets the first and only result in the array
+			allocation = this.allocations.get( budget_id, account_id )[0];
+			// default to 0
+			return (allocation) ? allocation.value : 0;
 		};
 
 		this.create = function ( budget ) {
