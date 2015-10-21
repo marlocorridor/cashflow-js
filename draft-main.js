@@ -26,6 +26,10 @@
 		.on('click', '.account-setting', function (e) {
 			// show view
 			showDetailView('account-setting');
+		})
+		.on('click', '.help-page', function (e) {
+			// show view
+			showDetailView('help-page');
 		});
 
 	$('.account-list')
