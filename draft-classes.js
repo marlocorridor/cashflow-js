@@ -525,9 +525,13 @@ var Cashflow = {
 		};
 
 		this.setAccountAllocation = function ( budget_id, account_id, value ) {
-			// set as float
+			var allocation;
+			// set value as float
 			value = parseFloat( value );
-			return this.allocations.set( budget_id, account_id, value );
+			// gets the first and only result in the array
+			allocation = this.allocations.set( budget_id, account_id, value )[0];
+			// return updated object
+			return allocation;
 		};
 
 		this.getAccountAllocation = function ( budget_id, account_id ) {
