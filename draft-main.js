@@ -7,6 +7,7 @@
 		return {
 			users: Cashflow.Users.db.findAll(),
 			budgets: Cashflow.Budgets.db.findAll(),
+			allocations: Cashflow.Budgets.allocations.findAll(),
 			entries: Cashflow.Entries.db.findAll(),
 			accounts: Cashflow.Accounts.db.findAll(),
 		};
