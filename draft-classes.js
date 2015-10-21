@@ -175,7 +175,7 @@ var Cashflow = {
 
 			// assign allocation
 			accounts[0].allocation = 
-				this.getBudgetAllocation( budget.accounts, accounts[0]._id.toString() );
+				this.getBudgetAllocation( budget._id.toString(), accounts[0]._id.toString() );
 
 			// recursive call
 			return this.assignAccountsAllocation(
@@ -364,24 +364,16 @@ var Cashflow = {
 				});
 		}
 
-		this.getBudgetAllocation = function ( budget_accounts, account_id ) {
-			if ( !budget_accounts.length ) {
-				// default budget is zero
-				return 0;
-			};
+		this.getBudgetAllocation = function ( budget_id, account_id ) {
+			var allocation;
 
-			var current_budget = budget_accounts[0];
+			// get allocation value
+			allocation = this.budgets.getAccountAllocation(
+				budget_id, 
+				account_id
+			);
 
-			// match account budget
-			if ( current_budget.id == account_id ) {
-				return current_budget.allocation;
-			}else{
-				// recursive call
-				return this.getBudgetAllocation(
-					budget_accounts.slice(1),
-					account_id
-				);
-			}
+			return allocation;
 		};
 
 		this.getBudget = function () {
