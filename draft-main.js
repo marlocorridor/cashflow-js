@@ -459,7 +459,9 @@ function showEntryDetail ( entry ) {
 	// set contents
 	getDetailField( detail_view, 'account' ).html( account.name );
 	getDetailField( detail_view, 'remarks' ).html( entry.remarks || '' );
-	getDetailField( detail_view, 'date-used' ).html( moment( entry.date.used ).format( Cashflow.global.constants.dateMomentFormat ) );
+	getDetailField( detail_view, 'date-used' ).html(
+		moment( new Date( entry.date.used ) ).format( Cashflow.global.constants.dateMomentFormat )
+	);
 	// show
 	showDetailView( detail_view );
 }
