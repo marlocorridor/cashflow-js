@@ -471,6 +471,9 @@ function initializeApp () {
 	Cashflow.Budgets  = new Cashflow.classes.app.Budget();
 	Cashflow.Entries  = new Cashflow.classes.app.Entry();
 	Cashflow.Accounts = new Cashflow.classes.app.Account( Cashflow.Budgets, Cashflow.Users, Cashflow.Entries );
+
+	Cashflow.activeDetailSection = null;
+	Cashflow.previousDetailView = null;
 }
 
 function initializePlugin () {
