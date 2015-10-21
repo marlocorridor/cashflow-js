@@ -79,17 +79,23 @@ var Cashflow = {
 		};
 
 		self.set = function ( local_id, foreign_id, value ) {
-			var search_obj, update_obj;
+			var search_obj, create_obj, update_obj;
 			
-			// object for create/update
+			// object for create
 			search_obj = self.createObj( local_id, foreign_id );
 			create_obj = self.createObj( local_id, foreign_id, value );
+			// object for update
+			update_obj = { $set: {} };
 
 			// check if exist
 			if( self.exist( local_id, foreign_id ) ){
-				return self.update( search_obj, create_obj );
+				// set only the value
+				update_obj.$set[self.value_key] = value;
+				return self.update( search_obj, update_obj );
 			}else{
-				return self.save( create_obj );
+				self.save( create_obj );
+				// get the object since `save` returns an `id` object and not an array
+				return self.find( search_obj );
 			}
 
 		};
