@@ -362,7 +362,7 @@ var Cashflow = {
 				function ( target_elem, rendered_account ) {
 					return $( rendered_account ).appendTo( target_elem );
 				});
-		}
+		};
 
 		this.getBudgetAllocation = function ( budget_id, account_id ) {
 			var allocation;
