@@ -286,6 +286,14 @@
 			var budget_id = getDetailViewFormDataId( detail_view, 'budget' );
 			// detemine action update or create
 			var result = Cashflow.Budgets.update( budget, budget_id );
+
+			// update displays
+			// hide details
+			hideAccountDetails();
+			// remove elements
+			$(Cashflow.Accounts.template.container.target).html('');
+			// render again
+			Cashflow.Accounts.setup();
 		});
 })();
 
@@ -399,6 +407,10 @@ function getCurrentDateString () {
 
 function lead ( number ) {
     return ( number < 10 ? '0': '' ) + number;
+}
+
+function hideAccountDetails () {
+	return toggleAccountDetail( $('.account-list .account-detail') );
 }
 
 function toggleAccountDetail ( $account_detail ) {
