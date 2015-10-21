@@ -59,6 +59,62 @@ var Cashflow = {
 		// this.db.setAutoCommit(true);
 	};
 
+	Cashflow.classes.db.ManyToManyRelationClass = function ( attribute_name, tablename, local_key, foreign_key, value_key ) {
+		this[attribute_name] = Scule.factoryCollection( 'scule+local://' + tablename );
+		// this[attribute_name].setAutoCommit(true);
+
+		// extend collection instance
+		var self = this[attribute_name];
+		self.local_key   = local_key;
+		self.foreign_key = foreign_key;
+		// 'value' as default
+		self.value_key   = ( !value_key ) ? 'value': value_key; 
+
+		self.get = function ( local_id, foreign_id ) {
+			var obj;
+			// obj for search
+			obj = self.createObj( local_id, foreign_id );
+
+			return self.find( obj );
+		};
+
+		self.set = function ( local_id, foreign_id, value ) {
+			var search_obj, update_obj;
+			
+			// object for create/update
+			search_obj = self.createObj( local_id, foreign_id );
+			create_obj = self.createObj( local_id, foreign_id, value );
+
+			// check if exist
+			if( self.exist( local_id, foreign_id ) ){
+				return self.update( search_obj, create_obj );
+			}else{
+				return self.save( create_obj );
+			}
+
+		};
+
+		self.createObj = function ( local_id, foreign_id, value ) {
+			var obj = {};
+
+			obj[self.local_key]   = local_id;
+			obj[self.foreign_key] = foreign_id;
+			// optional object attribute
+			if ( value ) {
+				obj[self.value_key]   = value;
+			}
+
+			return obj;
+		};
+
+		self.exist = function ( local_id, foreign_id ) {
+			var obj;
+			obj = self.createObj( local_id, foreign_id );
+			// convert to boolean
+			return !!self.count( obj );
+		}
+	};
+
 	Cashflow.classes.template.RendererClass = function ( template_id ) {
 		this.template = {
 			selector: "#" + template_id,
