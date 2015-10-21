@@ -382,6 +382,19 @@ var Cashflow = {
 			return allocation;
 		};
 
+		this.setBudgetAllocation = function ( budget_id, account_id, value ) {
+			var allocation;
+
+			// get allocation value
+			allocation = this.budgets.setAccountAllocation(
+				budget_id, 
+				account_id,
+				value
+			);
+
+			return allocation;
+		};
+
 		this.getBudget = function () {
 			return this.budgets.getBudget( this.users.getActiveUserSettings('budget').id );
 		};
