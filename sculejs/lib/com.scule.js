@@ -4937,12 +4937,12 @@ var Scule = {
 
         this.setCryptographyProvider(new Scule.db.classes.SimpleCryptographyProvider());
 
-        if (!window || (!window.hasOwnProperty('localStorage') && (window.localStorage !== null))) {
-            throw JSON.stringify({
-                event:'SculeLocalStorageError',
-                message:'Local storage is not available on this device'
-            });
-        }
+        // if (!window || (!window.hasOwnProperty('localStorage') && (window.localStorage !== null))) {
+        //     throw JSON.stringify({
+        //         event:'SculeLocalStorageError',
+        //         message:'Local storage is not available on this device'
+        //     });
+        // }
 
         /**
          * Writes data to storage
