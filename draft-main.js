@@ -315,7 +315,7 @@ function isDetailViewFormUpdateAction ( detail_view ) {
 }
 
 function isArrayInputName ( input_name ) {
-	return input_name.includes("[]");
+	return _.include(input_name,"[]");
 }
 
 function getInputArrayName ( input_name ) {

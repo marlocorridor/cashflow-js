@@ -56,12 +56,12 @@ var Cashflow = {
 
 	Cashflow.classes.db.TableClass = function ( tablename ) {
 		this.db = Scule.factoryCollection( 'scule+local://' + tablename );
-		// this.db.setAutoCommit(true);
+		this.db.setAutoCommit(true);
 	};
 
 	Cashflow.classes.db.ManyToManyRelationClass = function ( attribute_name, tablename, local_key, foreign_key, value_key ) {
 		this[attribute_name] = Scule.factoryCollection( 'scule+local://' + tablename );
-		// this[attribute_name].setAutoCommit(true);
+		this[attribute_name].setAutoCommit(true);
 
 		// extend collection instance
 		var self = this[attribute_name];
@@ -153,6 +153,10 @@ var Cashflow = {
 
 		// setup method called after definition
 		this.setup = function () {
+			if ( this.isAppStart() ) {
+				this.appStartUp();
+			}
+
 			if ( !this.users.getActiveUser() ) {
 				return;
 			}
@@ -173,6 +177,30 @@ var Cashflow = {
 
 			return target_elem;
 		};
+
+		this.isAppStart = function () {
+			return !this.users.db.findAll().length;
+		};
+
+		this.appStartUp = function () {
+			var budget_id, user_id, account_id;
+			budget_id = this.budgets.db.save({
+				name: 'Sample',
+				date: {
+					start: '2015/01/01',
+					end: '2015/12/31'
+				}
+			});
+			user_id   = this.users.db.save({
+				active:true,
+				name:'Marlo',
+				settings:{
+					budget:{
+						id:budget_id
+					}
+				}
+			});
+		}
 
 		this.assignAccountsAllocation = function ( accounts, budget ) {
 			if ( accounts.length == 0 ) {
@@ -336,7 +364,7 @@ var Cashflow = {
 		this.renderAccount = function ( account, budget, template_str ,target_elem, closure ) {
 			// assign derived attributes
 			account.total_expense = this.getAccountTotalExpense( account, budget );
-			account.allocation    = this.getBudgetAllocation( budget.accounts, account._id.toString() );
+			account.allocation    = this.getBudgetAllocation( budget._id.toString(), account._id.toString() );
 			account.progress      = this.getAccountProgressBarStyles( account );
 
 			// render template
