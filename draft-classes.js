@@ -548,7 +548,6 @@ var Cashflow = {
 		this.validate = function ( entry ) {
 			// check for required fields
 			return entry.description &&
-				entry.amount &&
 				entry.date.used && 
 				entry.account.id && 
 				entry.user.id;
