@@ -536,7 +536,7 @@ var Cashflow = {
 
 		this.update = function ( entry, entry_id ) {
 			if ( this.validate( entry ) ) {
-				entry.amount = parseFloat( entry.amount );
+				entry.amount = parseFloat( entry.amount ) || 0;
 				return this.db.update( {_id: entry_id }, {
 					$set: entry
 				},{},true);
