@@ -527,7 +527,7 @@ var Cashflow = {
 
 		this.create = function ( entry ) {
 			if ( this.validate( entry ) ) {
-				entry.amount = parseFloat( entry.amount );
+				entry.amount = parseFloat( entry.amount ) || 0;
 				return this.db.save( entry );
 			} else{
 				return false;
