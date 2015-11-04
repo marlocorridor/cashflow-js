@@ -527,7 +527,7 @@ var Cashflow = {
 
 		this.create = function ( entry ) {
 			if ( this.validate( entry ) ) {
-				entry.amount = parseInt( entry.amount );
+				entry.amount = parseFloat( entry.amount );
 				return this.db.save( entry );
 			} else{
 				return false;
@@ -536,7 +536,7 @@ var Cashflow = {
 
 		this.update = function ( entry, entry_id ) {
 			if ( this.validate( entry ) ) {
-				entry.amount = parseInt( entry.amount );
+				entry.amount = parseFloat( entry.amount );
 				return this.db.update( {_id: entry_id }, {
 					$set: entry
 				},{},true);
