@@ -201,6 +201,14 @@ var Cashflow = {
 					}
 				}
 			});
+			account_id = this.db.save({
+				name:"TRANS",
+				description:"Transportaion Allowance"
+			});
+			account_id = this.db.save({
+				name:"FUDS",
+				description:"Food Allowance"
+			});
 		}
 
 		this.assignAccountsAllocation = function ( accounts, budget ) {
