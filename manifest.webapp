@@ -3,10 +3,10 @@
   "description": "Track your expenses",
   "launch_path": "/draft.html",
   "icons": {
-    "60": "icon-60.png",
-    "128": "icon-128.png",
-    "256": "icon-256.png",
-    "512": "icon-512.png"
+    "60": "/icon-60.png",
+    "128": "/icon-128.png",
+    "256": "/icon-256.png",
+    "512": "/icon-512.png"
   },
   "developer": {
     "name": "Marlo Corridor",
