@@ -1,0 +1,1 @@
+zip -r cashflow js css lib img cashflow.html manifest.webapp
