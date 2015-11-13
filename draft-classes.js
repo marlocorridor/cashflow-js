@@ -154,9 +154,11 @@ var Cashflow = {
 		// setup method called after definition
 		this.setup = function () {
 			if ( this.isAppStart() ) {
+				// startup sequence
 				this.appStartUp();
 			}
 
+			// check if there an active user to get settings
 			if ( !this.users.getActiveUser() ) {
 				return;
 			}
@@ -183,22 +185,31 @@ var Cashflow = {
 		};
 
 		this.appStartUp = function () {
-			var budget_id, user_id, account_id;
+			var budget_id, user_id, account_id, year;
+			year      = (new Date()).getFullYear();
 			budget_id = this.budgets.db.save({
-				name: 'Sample',
+				name: 'Your Budget Name Here',
 				date: {
-					start: '2015/01/01',
-					end: '2015/12/31'
+					start: year + '/01/01',
+					end: year + '/12/31'
 				}
 			});
 			user_id   = this.users.db.save({
 				active:true,
-				name:'Marlo',
+				name:'Default User Name',
 				settings:{
 					budget:{
 						id:budget_id
 					}
 				}
+			});
+			account_id = this.db.save({
+				name:"TRANS",
+				description:"Transportaion Allowance"
+			});
+			account_id = this.db.save({
+				name:"FUDS",
+				description:"Food Allowance"
 			});
 		}
 
