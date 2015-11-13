@@ -112,7 +112,7 @@ input.abbreviation[name='name']{
 .btn-cf.btn-cancel{
 	background-color: #F96D6D;
 	position: absolute;
-	top: -14px;
+	top: -25px;
 	right: 10px;
 }
 .btn-cf.btn-edit{
