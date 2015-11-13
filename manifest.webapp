@@ -1,18 +1,18 @@
 {
   "name": "Cashflow",
   "description": "Track your expenses",
-  "launch_path": "/draft.html",
+  "launch_path": "/cashflow.html",
   "icons": {
-    "60": "/icon-60.png",
-    "128": "/icon-128.png",
-    "256": "/icon-256.png",
-    "512": "/icon-512.png"
+    "60": "/img/icon-60.png",
+    "128": "/img/icon-128.png",
+    "256": "/img/icon-256.png",
+    "512": "/img/icon-512.png"
   },
   "developer": {
     "name": "Marlo Corridor",
     "url": "https://github.com/marlocorridor"
   },
-  "version": "1.2",
+  "version": "2.0",
   "permissions": {
   }
 }
