@@ -286,6 +286,7 @@
 			var budget_id = getDetailViewFormDataId( detail_view, 'budget' );
 			// detemine action update or create
 			var result = Cashflow.Budgets.update( budget, budget_id );
+			Cashflow.Budgets.db.commit();
 
 			// update displays
 			// hide details
