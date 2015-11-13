@@ -154,9 +154,11 @@ var Cashflow = {
 		// setup method called after definition
 		this.setup = function () {
 			if ( this.isAppStart() ) {
+				// startup sequence
 				this.appStartUp();
 			}
 
+			// check if there an active user to get settings
 			if ( !this.users.getActiveUser() ) {
 				return;
 			}
@@ -194,7 +196,7 @@ var Cashflow = {
 			});
 			user_id   = this.users.db.save({
 				active:true,
-				name:'Marlo',
+				name:'Default User Name',
 				settings:{
 					budget:{
 						id:budget_id
