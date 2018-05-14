@@ -11,37 +11,37 @@
 	</head>
 	<body class="container">
 		<nav class="navbar navbar-default navbar-fixed-top menu-bar">
-	      	<div class="container-fluid">
-	        	<div class="navbar-header">
-		          	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-4" aria-expanded="false">
-		            	<span class="sr-only">Toggle navigation</span>
-		            	<span class="icon-bar"></span>
-		            	<span class="icon-bar"></span>
-		            	<span class="icon-bar"></span>
-		          	</button>
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-4" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
 					<a class="navbar-brand" href="#">CashFlow <small><small>v2.0</small></small></a>
-	        	</div>
-	        	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-4">
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-4">
 					<ul class="nav navbar-nav navbar-right">
-				        <li class="dropdown">
-				          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><span class="glyphicon glyphicon-cog"></span> Settings</a>
-				          	<ul class="dropdown-menu">
-				            	<li><a href="#" class="budget-setting"><i class="glyphicon glyphicon-option-vertical"></i> Budget Setting</a></li>
-				            	<li role="separator" class="divider"></li>
-				            	<li><a href="#" class="user-setting"><i class="glyphicon glyphicon-option-vertical"></i> User Setting</a></li>
-				            	<li role="separator" class="divider"></li>
-				            	<li><a href="#" class="account-setting"><i class="glyphicon glyphicon-option-vertical"></i> Account Setting</a></li>
-				          	</ul>
-				        </li>
-				        <li class="dropdown">
-				          	<a href="#" class="help-page" data-toggle="dropdown" role="button">
-				          		<span class="glyphicon glyphicon-question-sign"></span> Help
-				          	</a>
-				        </li>
-				    </ul>
-	        	</div>
-	      	</div>
-	    </nav>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+							<ul class="dropdown-menu">
+								<li><a href="#" class="budget-setting"><i class="glyphicon glyphicon-option-vertical"></i> Budget Setting</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#" class="user-setting"><i class="glyphicon glyphicon-option-vertical"></i> User Setting</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#" class="account-setting"><i class="glyphicon glyphicon-option-vertical"></i> Account Setting</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="help-page" data-toggle="dropdown" role="button">
+								<span class="glyphicon glyphicon-question-sign"></span> Help
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
 
 		<div class="container account-list">
 		</div>
@@ -246,12 +246,12 @@
 						<span class="badge">{{account.total_expense}}</span> / 
 						<span class="badge">{{account.allocation}}</span>
 					</span>
-			  		<div class="
-			  			progress-bar progress-bar-striped active 
-			  			progress-bar-{{account.progress.color}} 
-			  			progress-bar-{{account.progress.overflow_class}}" role="progressbar"
-				  		style="width: {{account.progress.usage_percentage}}%;">
-				  	</div>
+					<div class="
+						progress-bar progress-bar-striped active 
+						progress-bar-{{account.progress.color}} 
+						progress-bar-{{account.progress.overflow_class}}" role="progressbar"
+						style="width: {{account.progress.usage_percentage}}%;">
+					</div>
 				</div>
 			</div>
 		</script>
